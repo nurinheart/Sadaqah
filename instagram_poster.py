@@ -38,7 +38,14 @@ class InstagramPoster:
         
         try:
             print(f"🔐 Logging in as @{self.username}...")
-            self.client.login(self.username, self.password)
+            
+            if os.getenv('INSTAGRAM_SESSION_DATA'):
+                print("🔐 Attempting to log in using session data...")
+                self.client.login_by_sessionid(os.getenv('INSTAGRAM_SESSION_DATA'))
+                print("✅ Logged in successfully using session data.")
+            else:
+                self.client.login(self.username, self.password)
+                print("✅ Logged in successfully using username and password.")
             
             # Save session for future use
             self.client.dump_settings(self.session_file)

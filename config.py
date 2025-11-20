@@ -1,3 +1,5 @@
+import os
+
 # Configuration for Daily Hadith Post Generator
 
 # Instagram post dimensions (4:5 ratio)
@@ -130,3 +132,22 @@ LOCAL_IMAGES = {
     "Quran": "images/patterns/geometric_gold.jpg",  # Using gold pattern
     "default": "images/nature/serene_sky.jpg"
 }
+
+# Instagram Credentials
+INSTAGRAM_USERNAME = os.environ.get("INSTAGRAM_USERNAME")
+INSTAGRAM_PASSWORD = os.environ.get("INSTAGRAM_PASSWORD")
+INSTAGRAM_SESSION_DATA = os.environ.get("INSTAGRAM_SESSION_DATA")
+
+# Hadith API and Data
+HADITH_API_URL = "https://api.hadith.sbs/"
+
+# Default hadith theme (can be overridden)
+HADITH_THEME = "soft_cream"
+
+# Logging configuration
+LOG_LEVEL = "INFO"  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
+LOG_FILE = "hadith_generator.log"
+
+# Error handling
+ERROR_REPORTING_ENABLED = True
+ERROR_REPORT_EMAIL = "youremail@example.com"  # Change to your email
