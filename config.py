@@ -99,7 +99,7 @@ SOURCE_LETTER_SPACING = 1
 TEXT_SHADOW = False  # Set to True for subtle shadow effect
 
 # Branding (optional watermark)
-WATERMARK = "@nurinheart"  # Change to your account name or leave empty
+WATERMARK = "@NectarFromProphet"  # Change to your account name or leave empty
 WATERMARK_SIZE = 28
 WATERMARK_OPACITY = 100  # 0-255, lower is more subtle
 
