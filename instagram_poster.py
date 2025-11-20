@@ -33,19 +33,27 @@ class InstagramPoster:
     
     def login(self):
         """Login to Instagram"""
+        session_data = os.getenv('INSTAGRAM_SESSION_DATA')
+        
+        if session_data:
+            try:
+                print("🔐 Attempting to log in using session data...")
+                session_dict = json.loads(session_data)
+                self.client.set_settings(session_dict)
+                self.client.login_by_sessionid(self.client.sessionid)
+                print("✅ Logged in successfully using session data.")
+                return
+            except Exception as e:
+                print(f"⚠️  Session login failed: {e}")
+                print("   Please generate a new session.json and update the INSTAGRAM_SESSION_DATA secret.")
+                raise
+        
         if not self.username or not self.password:
-            raise ValueError("❌ Instagram credentials not set! Create .env file with your username and password")
+            raise ValueError("❌ Instagram credentials not set! Please set INSTAGRAM_SESSION_DATA secret.")
         
         try:
             print(f"🔐 Logging in as @{self.username}...")
-            
-            if os.getenv('INSTAGRAM_SESSION_DATA'):
-                print("🔐 Attempting to log in using session data...")
-                self.client.login_by_sessionid(os.getenv('INSTAGRAM_SESSION_DATA'))
-                print("✅ Logged in successfully using session data.")
-            else:
-                self.client.login(self.username, self.password)
-                print("✅ Logged in successfully using username and password.")
+            self.client.login(self.username, self.password)
             
             # Save session for future use
             self.client.dump_settings(self.session_file)
