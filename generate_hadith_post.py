@@ -157,7 +157,7 @@ class HadithPostGenerator:
         symbol_ascent = abs(symbol_bbox[1])  # Distance from baseline to top
         
         # Calculate vertical offset to align baselines and raise symbol slightly
-        baseline_offset = text_ascent - symbol_ascent - 7  # Raise 5px
+        baseline_offset = text_ascent - symbol_ascent - 10  # Raise 5px
         
         # Draw "The Prophet "
         draw.text((current_x, y), text_before, fill=color, font=font)
