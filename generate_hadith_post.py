@@ -145,23 +145,26 @@ class HadithPostGenerator:
         
         current_x = x
         
+        # Make symbol font slightly bigger for better visibility (10% larger)
+        symbol_size = int(symbol_font.size * 1.1)
+        symbol_font_large = self.get_font('symbol', size=symbol_size)
+        
         # Get baseline information for proper alignment
         text_bbox = font.getbbox(text_before)
         text_ascent = abs(text_bbox[1])  # Distance from baseline to top
         
-        symbol_bbox = symbol_font.getbbox(symbol)
+        symbol_bbox = symbol_font_large.getbbox(symbol)
         symbol_ascent = abs(symbol_bbox[1])  # Distance from baseline to top
         
-        # Calculate vertical offset to align baselines
-        # The symbol should sit on the same baseline as the text
-        baseline_offset = text_ascent - symbol_ascent
+        # Calculate vertical offset to align baselines and raise symbol slightly
+        baseline_offset = text_ascent - symbol_ascent - 3  # Raise 5px
         
         # Draw "The Prophet "
         draw.text((current_x, y), text_before, fill=color, font=font)
         current_x += text_bbox[2] - text_bbox[0] + 2  # Small spacing before symbol
         
-        # Draw ﷺ symbol aligned to text baseline
-        draw.text((current_x, y + baseline_offset), symbol, fill=symbol_color, font=symbol_font)
+        # Draw ﷺ symbol aligned to text baseline (slightly raised)
+        draw.text((current_x, y + baseline_offset), symbol, fill=symbol_color, font=symbol_font_large)
         current_x += symbol_bbox[2] - symbol_bbox[0] + 2  # Small spacing after symbol
         
         # Draw " said:"
