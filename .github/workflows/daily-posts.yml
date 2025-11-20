@@ -13,6 +13,9 @@ on:
   # Allow manual triggering for testing
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   post-hadith:
     runs-on: ubuntu-latest
