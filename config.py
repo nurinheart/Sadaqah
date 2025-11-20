@@ -51,7 +51,7 @@ THEMES = {
 }
 
 # Default theme (you can change this after reviewing samples)
-DEFAULT_THEME = "soft_cream"
+DEFAULT_THEME = "warm_beige"
 
 # Font settings
 FONTS = {
