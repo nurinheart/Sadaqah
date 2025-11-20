@@ -83,7 +83,12 @@ FONT_PATHS = {
 
 # System fonts that support Arabic/Islamic symbols
 ARABIC_FONTS = [
-    "/System/Library/Fonts/Supplemental/GeezaPro.ttc",  # macOS Arabic font
+    # Linux/Ubuntu fonts (GitHub Actions)
+    "/usr/share/fonts/truetype/noto/NotoSansArabic-Regular.ttf",
+    "/usr/share/fonts/truetype/noto/NotoNaskhArabic-Regular.ttf",
+    "/usr/share/fonts/truetype/noto/NotoSans-Regular.ttf",
+    # macOS fonts
+    "/System/Library/Fonts/Supplemental/GeezaPro.ttc",
     "/System/Library/Fonts/Supplemental/Baghdad.ttf",
     "/System/Library/Fonts/Supplemental/KufiStandardGK.ttc",
     "/Library/Fonts/Arial Unicode.ttf",
