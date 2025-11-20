@@ -139,29 +139,37 @@ class HadithPostGenerator:
         return ImageFont.load_default()
     
     def draw_text_with_symbol(self, draw, x, y, text_before, symbol, text_after, font, symbol_font, color, symbol_color=None):
-        """Draw text with special symbol handling for proper display"""
+        """Draw text with special symbol handling for proper baseline alignment"""
         if symbol_color is None:
             symbol_color = color
         
         current_x = x
         
+        # Get baseline information for proper alignment
+        text_bbox = font.getbbox(text_before)
+        text_ascent = abs(text_bbox[1])  # Distance from baseline to top
+        
+        symbol_bbox = symbol_font.getbbox(symbol)
+        symbol_ascent = abs(symbol_bbox[1])  # Distance from baseline to top
+        
+        # Calculate vertical offset to align baselines
+        # The symbol should sit on the same baseline as the text
+        baseline_offset = text_ascent - symbol_ascent
+        
         # Draw "The Prophet "
         draw.text((current_x, y), text_before, fill=color, font=font)
-        bbox = font.getbbox(text_before)
-        current_x += bbox[2] - bbox[0]
+        current_x += text_bbox[2] - text_bbox[0] + 2  # Small spacing before symbol
         
-        # Draw ﷺ symbol with special font (slightly raised and bigger)
-        symbol_bbox = symbol_font.getbbox(symbol)
-        symbol_offset_y = -8  # Raise symbol slightly
-        draw.text((current_x, y + symbol_offset_y), symbol, fill=symbol_color, font=symbol_font)
-        current_x += symbol_bbox[2] - symbol_bbox[0] + 5  # Small spacing after symbol
+        # Draw ﷺ symbol aligned to text baseline
+        draw.text((current_x, y + baseline_offset), symbol, fill=symbol_color, font=symbol_font)
+        current_x += symbol_bbox[2] - symbol_bbox[0] + 2  # Small spacing after symbol
         
         # Draw " said:"
         draw.text((current_x, y), text_after, fill=color, font=font)
         
         # Return total width for centering
-        total_bbox = font.getbbox(text_before + text_after)
-        return total_bbox[2] - total_bbox[0] + (symbol_bbox[2] - symbol_bbox[0]) + 5
+        after_bbox = font.getbbox(text_after)
+        return (text_bbox[2] - text_bbox[0]) + (symbol_bbox[2] - symbol_bbox[0]) + (after_bbox[2] - after_bbox[0]) + 4
     
     def wrap_text(self, text, font, max_width):
         """Wrap text to fit within max width"""
