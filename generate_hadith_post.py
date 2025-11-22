@@ -131,38 +131,45 @@ class HadithPostGenerator:
         return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
     
     def get_font(self, font_type, size=None, bold=False):
-        """Get font with Product Sans priority and proper Unicode support"""
+        """
+        Get font with proper Unicode support for Arabic symbols
+        ROOT FIX: GeezaPro for symbols, Product Sans for text
+        """
         if size is None:
             size = FONTS[font_type]['size']
         
         # Special handling for Arabic/symbol fonts ONLY for 'symbol' type
         if font_type == 'symbol':
-            # Priority: fonts known to support Arabic Unicode block (U+0600-U+06FF and U+FE70-U+FEFF)
+            # GeezaPro is the best font for ﷺ symbol on macOS
+            # Priority order based on availability and rendering quality
             unicode_fonts = [
-                '/System/Library/Fonts/Supplemental/GeezaPro.ttc',  # Best for macOS - previous working font
-                '/System/Library/Fonts/Supplemental/Baghdad.ttf',
+                '/System/Library/Fonts/GeezaPro.ttc',  # PRIMARY - Best rendering
+                '/System/Library/Fonts/Supplemental/GeezaPro.ttc',
+                '/System/Library/Fonts/Supplemental/Baghdad.ttc',
+                '/usr/share/fonts/truetype/noto/NotoNaskhArabic-Regular.ttf',  # Linux
                 '/Library/Fonts/Arial Unicode.ttf',
                 '/System/Library/Fonts/Supplemental/Arial Unicode.ttf',
-                'fonts/NotoNaskhArabic-Regular.ttf',  # If we add Noto Arabic
-            ] + ARABIC_FONTS
+            ]
             
             for font_path in unicode_fonts:
+                if not os.path.exists(font_path):
+                    continue
+                    
                 try:
                     font = ImageFont.truetype(font_path, size)
-                    # Test if font can render Arabic/Islamic symbols
-                    try:
-                        font.getbbox('ﷺ')  # Test with actual symbol
-                        print(f"✅ Using symbol font: {os.path.basename(font_path)}")
+                    # Verify font can render the symbol
+                    bbox = font.getbbox('ﷺ')
+                    if bbox[2] - bbox[0] > 0:  # Has actual width
+                        font_name = os.path.basename(font_path)
                         return font
-                    except:
-                        continue
-                except:
+                except Exception as e:
                     continue
             
-            print("⚠️  Warning: No Arabic Unicode font found, using fallback")
-        
+            # Fallback warning
+            print("⚠️  WARNING: No suitable Arabic font found for ﷺ symbol!")
+            print("   Symbol may render as box. Install GeezaPro font.")
+            
         # For all other font types (heading, main_text, source), use Product Sans
-        # Try Product Sans first for regular text
         product_sans_path = FONT_PATHS['product_sans_bold'] if bold else FONT_PATHS['product_sans_regular']
         try:
             if os.path.exists(product_sans_path):
@@ -170,22 +177,23 @@ class HadithPostGenerator:
         except:
             pass
         
-        # Fallback to system fonts (modern, clean options)
+        # Fallback to clean system fonts
         font_options = [
             '/System/Library/Fonts/Supplemental/Arial.ttf',
-            '/System/Library/Fonts/SFNS.ttf',  # San Francisco
+            '/System/Library/Fonts/SFNS.ttf',  # San Francisco (macOS)
             '/System/Library/Fonts/Helvetica.ttc',
+            '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',  # Linux
             'Arial.ttf',
-            'Helvetica.ttf'
         ]
         
         for font_path in font_options:
             try:
-                return ImageFont.truetype(font_path, size)
+                if os.path.exists(font_path):
+                    return ImageFont.truetype(font_path, size)
             except:
                 continue
         
-        # Last resort: Pillow default but larger
+        # Last resort
         return ImageFont.load_default()
     
     def draw_text_with_symbol(self, draw, x, y, text_before, symbol, text_after, font, symbol_font, color, symbol_color=None):
@@ -251,37 +259,197 @@ class HadithPostGenerator:
         return lines
     
     def draw_text_with_arabic_symbols(self, draw, x, y, text, main_font, symbol_font, color):
-        """Draw text that may contain Arabic symbols (ﷺ) with proper font handling"""
-        # Check if text contains the symbol
-        if 'ﷺ' not in text:
-            # No symbol, draw normally
-            draw.text((x, y), text, fill=color, font=main_font)
+        """
+        ROOT FIX: Draw text with proper Arabic symbol (ﷺ) rendering and highlighting
+        - Highlights ALL religious terms (Allah, the Prophet, Messenger, etc.) in NEW accent color
+        - Highlights "(ﷺ)" including brackets in accent color
+        - Uses GeezaPro font for ﷺ symbol, Product Sans for text
+        - Configurable via HIGHLIGHT_RELIGIOUS_TERMS and HIGHLIGHT_TERMS in config
+        """
+        # Use NEW dedicated accent_color for religious terms (distinct and aesthetic!)
+        accent_color = self.theme.get('accent_color', self.theme['heading_color'])
+        symbol = 'ﷺ'
+        
+        # Check if highlighting is enabled
+        if not HIGHLIGHT_RELIGIOUS_TERMS:
+            # No highlighting - just render with proper symbol font
+            if symbol not in text:
+                draw.text((x, y), text, fill=color, font=main_font)
+                return
+            
+            # Handle symbol without highlighting
+            parts = text.split(symbol)
+            current_x = x
+            for i, part in enumerate(parts):
+                if part:
+                    draw.text((current_x, y), part, fill=color, font=main_font)
+                    bbox = main_font.getbbox(part)
+                    current_x += bbox[2] - bbox[0]
+                
+                if i < len(parts) - 1:
+                    symbol_font_sized = self.get_font('symbol', size=int(main_font.size))
+                    text_bbox = main_font.getbbox('A')
+                    symbol_bbox = symbol_font_sized.getbbox(symbol)
+                    text_ascent = abs(text_bbox[1])
+                    symbol_ascent = abs(symbol_bbox[1])
+                    y_offset = text_ascent - symbol_ascent
+                    draw.text((current_x, y + y_offset), symbol, fill=color, font=symbol_font_sized)
+                    current_x += symbol_bbox[2] - symbol_bbox[0] + 2
             return
         
-        # Split text by symbol and draw each part with appropriate font
-        parts = text.split('ﷺ')
-        current_x = x
+        # Get highlight terms from config
+        highlight_terms = HIGHLIGHT_TERMS if 'HIGHLIGHT_TERMS' in globals() else []
         
-        for i, part in enumerate(parts):
-            # Draw text part with main font
-            if part:
-                draw.text((current_x, y), part, fill=color, font=main_font)
-                bbox = main_font.getbbox(part)
+        # Separate multi-word phrases and single words
+        highlight_phrases = [term for term in highlight_terms if ' ' in term]
+        highlight_words = [term for term in highlight_terms if ' ' not in term]
+        
+        current_x = x
+        remaining_text = text
+        
+        while remaining_text:
+            # Find the earliest occurrence of any highlight phrase, word, or symbol pattern
+            earliest_pos = len(remaining_text)
+            found_phrase = None
+            found_type = None  # 'phrase', 'word', or 'symbol'
+            
+            # Check for multi-word phrases FIRST (to avoid breaking them into single words)
+            for phrase in highlight_phrases:
+                pos = remaining_text.find(phrase)
+                if pos != -1 and pos < earliest_pos:
+                    earliest_pos = pos
+                    found_phrase = phrase
+                    found_type = 'phrase'
+            
+            # Check for (ﷺ) pattern - symbol with brackets
+            symbol_with_brackets = f"({symbol})"
+            pos = remaining_text.find(symbol_with_brackets)
+            if pos != -1 and pos < earliest_pos:
+                earliest_pos = pos
+                found_phrase = symbol_with_brackets
+                found_type = 'symbol_brackets'
+            
+            # Check for standalone symbol
+            pos = remaining_text.find(symbol)
+            if pos != -1 and pos < earliest_pos:
+                earliest_pos = pos
+                found_phrase = symbol
+                found_type = 'symbol'
+            
+            # Check for single highlight words (if no phrase/symbol found earlier)
+            if found_type is None or earliest_pos > 0:
+                for word in highlight_words:
+                    # Find word boundaries to avoid partial matches
+                    pos = 0
+                    while pos < len(remaining_text):
+                        pos = remaining_text.find(word, pos)
+                        if pos == -1:
+                            break
+                        
+                        # Check if it's a whole word (not part of another word)
+                        before_ok = pos == 0 or remaining_text[pos-1] in ' \n\t.,;:!?\'"'
+                        after_ok = (pos + len(word) >= len(remaining_text) or 
+                                   remaining_text[pos + len(word)] in ' \n\t.,;:!?\'"\'s')
+                        
+                        if before_ok and after_ok and pos < earliest_pos:
+                            earliest_pos = pos
+                            found_phrase = word
+                            found_type = 'word'
+                            break
+                        pos += 1
+            
+            # Draw text before the highlight
+            if earliest_pos > 0:
+                before_text = remaining_text[:earliest_pos]
+                draw.text((current_x, y), before_text, fill=color, font=main_font)
+                bbox = main_font.getbbox(before_text)
                 current_x += bbox[2] - bbox[0]
             
-            # Draw symbol with symbol font (if not last part)
-            if i < len(parts) - 1:
-                # Make symbol slightly bigger
-                symbol_size = int(main_font.size * 0.9)
-                symbol_font_sized = self.get_font('symbol', size=symbol_size)
+            # No more highlights found
+            if earliest_pos >= len(remaining_text):
+                break
+            
+            # Draw the highlighted phrase, word, or symbol
+            if found_type in ['phrase', 'word']:
+                # Highlight phrase/word in accent color with bold font
+                bold_font = self.get_font('main_text', size=int(main_font.size), bold=True)
+                draw.text((current_x, y), found_phrase, fill=accent_color, font=bold_font)
+                bbox = bold_font.getbbox(found_phrase)
+                current_x += bbox[2] - bbox[0]
+                remaining_text = remaining_text[earliest_pos + len(found_phrase):]
                 
-                # Adjust vertical position for better alignment
-                symbol_bbox = symbol_font_sized.getbbox('ﷺ')
+            elif found_type == 'symbol_brackets':
+                # Highlight (ﷺ) with brackets in accent color with bold font
+                bold_font = self.get_font('main_text', size=int(main_font.size), bold=True)
+                
+                # Draw opening bracket in bold
+                draw.text((current_x, y), "(", fill=accent_color, font=bold_font)
+                bracket_bbox = bold_font.getbbox("(")
+                current_x += bracket_bbox[2] - bracket_bbox[0]
+                
+                # Draw symbol with proper font
+                symbol_font_sized = self.get_font('symbol', size=int(main_font.size))
+                text_bbox = bold_font.getbbox('A')
+                symbol_bbox = symbol_font_sized.getbbox(symbol)
+                text_ascent = abs(text_bbox[1])
+                symbol_ascent = abs(symbol_bbox[1])
+                y_offset = text_ascent - symbol_ascent
+                
+                draw.text((current_x, y + y_offset), symbol, fill=accent_color, font=symbol_font_sized)
+                current_x += symbol_bbox[2] - symbol_bbox[0]
+                
+                # Draw closing bracket in bold
+                draw.text((current_x, y), ")", fill=accent_color, font=bold_font)
+                bracket_bbox = bold_font.getbbox(")")
+                current_x += bracket_bbox[2] - bracket_bbox[0] + 2
+                
+                remaining_text = remaining_text[earliest_pos + len(symbol_with_brackets):]
+                
+            elif found_type == 'symbol':
+                # Draw standalone symbol with proper font in accent color
+                symbol_font_sized = self.get_font('symbol', size=int(main_font.size))
                 text_bbox = main_font.getbbox('A')
-                y_offset = (text_bbox[3] - symbol_bbox[3]) // 2
+                symbol_bbox = symbol_font_sized.getbbox(symbol)
+                text_ascent = abs(text_bbox[1])
+                symbol_ascent = abs(symbol_bbox[1])
+                y_offset = text_ascent - symbol_ascent
                 
-                draw.text((current_x, y + y_offset), 'ﷺ', fill=color, font=symbol_font_sized)
-                current_x += symbol_bbox[2] - symbol_bbox[0] + 3
+                draw.text((current_x, y + y_offset), symbol, fill=accent_color, font=symbol_font_sized)
+                current_x += symbol_bbox[2] - symbol_bbox[0] + 2
+                remaining_text = remaining_text[earliest_pos + len(symbol):]
+    
+    def get_text_width_with_symbols(self, text, main_font, symbol_font):
+        """
+        Calculate actual width of text including properly rendered symbols and highlighted phrases
+        This needs to match the rendering logic in draw_text_with_arabic_symbols
+        """
+        symbol = 'ﷺ'
+        
+        # Simple approximation: calculate width treating all text with main font
+        # and symbols with symbol font
+        total_width = 0
+        remaining = text
+        
+        while symbol in remaining:
+            parts = remaining.split(symbol, 1)
+            # Width of text before symbol
+            if parts[0]:
+                bbox = main_font.getbbox(parts[0])
+                total_width += bbox[2] - bbox[0]
+            
+            # Width of symbol
+            symbol_bbox = symbol_font.getbbox(symbol)
+            total_width += symbol_bbox[2] - symbol_bbox[0] + 2
+            
+            # Continue with rest
+            remaining = parts[1] if len(parts) > 1 else ""
+        
+        # Add remaining text
+        if remaining:
+            bbox = main_font.getbbox(remaining)
+            total_width += bbox[2] - bbox[0]
+        
+        return total_width
     
     def load_local_image(self, image_path):
         """Load image from local filesystem - ROOT FIX: no timeouts, guaranteed halal"""
@@ -442,22 +610,25 @@ class HadithPostGenerator:
         main_font = self.get_font('main_text')
         source_font = self.get_font('source', bold=True)
         
-        # Calculate starting position (all slides have image now) - REDUCED gap
+        # Calculate starting position - more space for content (no heading)
         if USE_IMAGES:
-            y_pos = int(IMAGE_HEIGHT * IMAGE_HEIGHT_RATIO) + PADDING + 15  # Reduced from 40 to 15
+            y_pos = int(IMAGE_HEIGHT * IMAGE_HEIGHT_RATIO) + PADDING_TOP
         else:
-            y_pos = PADDING + 100
+            y_pos = PADDING_TOP
         
-        # Draw heading (first slide shows full heading, continuation slides show "Continued...")
-        if slide_num == 1:
-            text_before = "The Prophet "
-            symbol = "ﷺ"
-            text_after = " said:"
+        # Optional heading display (configurable)
+        if slide_num == 1 and SHOW_HEADING_FIRST_SLIDE:
+            text_before = "Hadith of the Day"
+            symbol = ""
+            text_after = ":"
             
-            temp_bbox = heading_font.getbbox(text_before + text_after)
-            symbol_bbox = symbol_font.getbbox(symbol)
-            total_width = (temp_bbox[2] - temp_bbox[0]) + (symbol_bbox[2] - symbol_bbox[0]) + 5
-            heading_x = (IMAGE_WIDTH - total_width) // 2
+            if HEADING_ALIGNMENT == "center":
+                temp_bbox = heading_font.getbbox(text_before + text_after)
+                symbol_bbox = symbol_font.getbbox(symbol)
+                total_width = (temp_bbox[2] - temp_bbox[0]) + (symbol_bbox[2] - symbol_bbox[0]) + 5
+                heading_x = (IMAGE_WIDTH - total_width) // 2
+            else:
+                heading_x = CONTENT_LEFT_MARGIN
             
             self.draw_text_with_symbol(
                 draw, heading_x, y_pos,
@@ -466,80 +637,115 @@ class HadithPostGenerator:
                 self.theme['heading_color'],
                 self.theme['heading_color']
             )
-            y_pos += max(heading_font.getbbox("A")[3], symbol_font.getbbox(symbol)[3]) + 35  # Reduced from 60 to 35
-        else:
-            # Continuation slides show "Continued..."
+            y_pos += max(heading_font.getbbox("A")[3], symbol_font.getbbox(symbol)[3]) + HEADING_TO_CONTENT_GAP
+        elif slide_num > 1 and SHOW_HEADING_CONTINUATION_SLIDES:
             continuation_text = "Continuation:"
             cont_bbox = heading_font.getbbox(continuation_text)
-            cont_width = cont_bbox[2] - cont_bbox[0]
-            cont_x = (IMAGE_WIDTH - cont_width) // 2
+            
+            if HEADING_ALIGNMENT == "center":
+                cont_width = cont_bbox[2] - cont_bbox[0]
+                cont_x = (IMAGE_WIDTH - cont_width) // 2
+            else:
+                cont_x = CONTENT_LEFT_MARGIN
             
             draw.text((cont_x, y_pos), continuation_text, fill=self.theme['heading_color'], font=heading_font)
-            y_pos += heading_font.getbbox("A")[3] + 35  # Reduced from 60 to 35
+            y_pos += heading_font.getbbox("A")[3] + HEADING_TO_CONTENT_GAP
         
-        # Draw hadith text chunk (add "..." at end if first slide and there are more slides)
-        if slide_num == 1 and total_slides > 1:
+        # Draw hadith text chunk (add "..." at end if not the last slide)
+        if slide_num < total_slides:
             text_to_display = text_chunk + "..."
         else:
-            text_to_display = text_chunk
+            # Last slide: ensure text ends with fullstop
+            text_to_display = text_chunk.rstrip()
+            if not text_to_display.endswith(('.', '!', '?', '।')):
+                text_to_display += "."
         
-        wrapped_lines = self.wrap_text(text_to_display, main_font, MAX_TEXT_WIDTH - 60)
+        # Wrap text with proper width
+        wrapped_lines = self.wrap_text(text_to_display, main_font, MAX_TEXT_WIDTH)
         line_height = main_font.getbbox('A')[3] * LINE_SPACING
         total_text_height = len(wrapped_lines) * line_height
         
-        # Vertically center the text (all slides have image now)
-        if USE_IMAGES:
-            available_height = IMAGE_HEIGHT - int(IMAGE_HEIGHT * IMAGE_HEIGHT_RATIO) - PADDING * 2 - 200  # Reduced from 250
-            y_pos = int(IMAGE_HEIGHT * IMAGE_HEIGHT_RATIO) + PADDING + 90 + (available_height - total_text_height) // 2  # Reduced from 140
-        else:
-            y_pos = (IMAGE_HEIGHT - total_text_height) // 2
+        # Calculate available vertical space for content
+        content_start_y = y_pos  # Where content should start
         
+        # Calculate where reference will be placed
+        source_bbox = source_font.getbbox(f"{hadith['primary_source']} (Sahih)")
+        reference_y = IMAGE_HEIGHT - PADDING_BOTTOM - source_bbox[3] - 10  # Add extra margin
+        
+        # If watermark exists, adjust reference position higher
+        if WATERMARK:
+            watermark_font = self.get_font('source', WATERMARK_SIZE)
+            watermark_bbox = watermark_font.getbbox(WATERMARK)
+            reference_y = IMAGE_HEIGHT - PADDING_BOTTOM - source_bbox[3] - watermark_bbox[3] - 25  # Space for watermark
+        
+        # Calculate available space and center content vertically
+        available_height = reference_y - content_start_y
+        vertical_offset = (available_height - total_text_height) // 2
+        y_pos = content_start_y + max(0, vertical_offset)  # Ensure it's not negative
+        
+        # Draw each line with proper alignment and symbol handling
         for line in wrapped_lines:
-            # Check if line contains Arabic symbols
-            if 'ﷺ' in line:
-                # Use special handling for lines with symbols
-                bbox = main_font.getbbox(line.replace('ﷺ', ''))  # Approximate width
-                line_width = bbox[2] - bbox[0]
+            # Calculate x position based on alignment
+            if TEXT_ALIGNMENT == "left":
+                line_x = CONTENT_LEFT_MARGIN
+            elif TEXT_ALIGNMENT == "right":
+                line_width = self.get_text_width_with_symbols(line, main_font, symbol_font)
+                line_x = IMAGE_WIDTH - CONTENT_RIGHT_MARGIN - line_width
+            else:  # center
+                line_width = self.get_text_width_with_symbols(line, main_font, symbol_font)
                 line_x = (IMAGE_WIDTH - line_width) // 2
-                
-                if TEXT_SHADOW:
-                    shadow_offset = 2
-                    self.draw_text_with_arabic_symbols(draw, line_x + shadow_offset, y_pos + shadow_offset, 
-                                                      line, main_font, symbol_font, (0, 0, 0, 30))
-                
-                self.draw_text_with_arabic_symbols(draw, line_x, y_pos, line, main_font, symbol_font, 
-                                                   self.theme['text_color'])
-            else:
-                # Normal text without symbols
-                bbox = main_font.getbbox(line)
-                line_width = bbox[2] - bbox[0]
-                line_x = (IMAGE_WIDTH - line_width) // 2
-                
-                if TEXT_SHADOW:
-                    shadow_offset = 2
-                    draw.text((line_x + shadow_offset, y_pos + shadow_offset), line,
-                             fill=(0, 0, 0, 30), font=main_font)
-                
-                draw.text((line_x, y_pos), line, fill=self.theme['text_color'], font=main_font)
+            
+            # Draw with proper symbol handling
+            if TEXT_SHADOW:
+                shadow_offset = 2
+                self.draw_text_with_arabic_symbols(
+                    draw, line_x + shadow_offset, y_pos + shadow_offset, 
+                    line, main_font, symbol_font, (0, 0, 0, 30)
+                )
+            
+            self.draw_text_with_arabic_symbols(
+                draw, line_x, y_pos, line, main_font, symbol_font, 
+                self.theme['text_color']
+            )
             
             y_pos += line_height
         
-        # Draw reference (on all slides) - REMOVED verification line
+        # Draw reference (on all slides)
         source_text = f"{hadith['primary_source']} (Sahih)"
         source_bbox = source_font.getbbox(source_text)
         source_width = source_bbox[2] - source_bbox[0]
-        source_x = (IMAGE_WIDTH - source_width) // 2
-        source_y = IMAGE_HEIGHT - PADDING - 90  # Moved up since we removed verification line
+        
+        # Calculate watermark position first to avoid overlap
+        watermark_y = None
+        watermark_height = 0
+        if WATERMARK:
+            watermark_font = self.get_font('source', WATERMARK_SIZE)
+            watermark_bbox = watermark_font.getbbox(WATERMARK)
+            watermark_height = watermark_bbox[3] - watermark_bbox[1]
+            watermark_y = IMAGE_HEIGHT - PADDING_BOTTOM - watermark_height
+        
+        # Position reference ABOVE watermark with proper spacing
+        if WATERMARK:
+            source_y = watermark_y - source_bbox[3] - 20  # 20px gap between reference and watermark
+        else:
+            source_y = IMAGE_HEIGHT - PADDING_BOTTOM - source_bbox[3] - 10
+        
+        # Position based on alignment setting
+        if REFERENCE_ALIGNMENT == "left":
+            source_x = CONTENT_LEFT_MARGIN
+        elif REFERENCE_ALIGNMENT == "right":
+            source_x = IMAGE_WIDTH - CONTENT_RIGHT_MARGIN - source_width
+        else:  # center
+            source_x = (IMAGE_WIDTH - source_width) // 2
         
         draw.text((source_x, source_y), source_text, fill=self.theme['source_color'], font=source_font)
         
-        # Watermark (draw BEFORE swipe indicator)
+        # Watermark (draw AFTER reference)
         if WATERMARK:
             watermark_font = self.get_font('source', WATERMARK_SIZE)
             watermark_bbox = watermark_font.getbbox(WATERMARK)
             watermark_width = watermark_bbox[2] - watermark_bbox[0]
             watermark_x = (IMAGE_WIDTH - watermark_width) // 2
-            watermark_y = IMAGE_HEIGHT - PADDING - 40
             
             watermark_color = self.hex_to_rgb(self.theme['source_color'])
             watermark_color = (*watermark_color[:3], WATERMARK_OPACITY)
@@ -565,6 +771,11 @@ class HadithPostGenerator:
         Split text into balanced chunks that fit within max_height
         Ensures no slide has too few words (min 5 words per slide)
         Based on NectarFromQuran's balanced chunking algorithm
+        
+        CRITICAL: max_height should be the ACTUAL available space considering:
+        - Space after heading/content start
+        - Space before reference (with proper margin)
+        - Space for watermark if present
         """
         words = text.split()
         
@@ -578,11 +789,12 @@ class HadithPostGenerator:
             test_chunk = ' '.join(current_chunk + [word])
             wrapped_lines = self.wrap_text(test_chunk, font, max_width)
             
-            # Calculate height
+            # Calculate height with proper line spacing
             line_height = font.getbbox('A')[3] * LINE_SPACING
             test_height = len(wrapped_lines) * line_height
             
-            if test_height <= max_height:
+            # Use 85% of max_height to ensure comfortable spacing
+            if test_height <= (max_height * 0.85):
                 current_chunk.append(word)
             else:
                 if current_chunk:
@@ -676,17 +888,39 @@ class HadithPostGenerator:
         
         # Calculate starting position (lower if image is present)
         if USE_IMAGES:
-            y_pos = int(IMAGE_HEIGHT * IMAGE_HEIGHT_RATIO) + PADDING + 40
+            content_start_y = int(IMAGE_HEIGHT * IMAGE_HEIGHT_RATIO) + PADDING_TOP
         else:
-            y_pos = PADDING + 100
+            content_start_y = PADDING_TOP
         
-        # Calculate safe area for hadith text (between heading and reference)
-        heading_bottom = y_pos + max(heading_font.getbbox("A")[3], symbol_font.getbbox("ﷺ")[3]) + 60
-        reference_top = IMAGE_HEIGHT - PADDING - 130
-        max_text_height = reference_top - heading_bottom - 100  # 100px safety margin
+        # Calculate where reference and watermark will be
+        source_bbox = source_font.getbbox("Reference (Sahih)")
+        reference_height = source_bbox[3] - source_bbox[1]
+        
+        watermark_height = 0
+        if WATERMARK:
+            watermark_font = self.get_font('source', WATERMARK_SIZE)
+            watermark_bbox = watermark_font.getbbox(WATERMARK)
+            watermark_height = watermark_bbox[3] - watermark_bbox[1]
+        
+        # Calculate bottom position (reference + watermark + spacing)
+        bottom_reserved = PADDING_BOTTOM + watermark_height + reference_height + 30  # 30px spacing
+        reference_top = IMAGE_HEIGHT - bottom_reserved
+        
+        # If showing heading on first slide, account for it
+        heading_height = 0
+        if SHOW_HEADING_FIRST_SLIDE:
+            heading_height = max(heading_font.getbbox("A")[3], symbol_font.getbbox("ﷺ")[3]) + HEADING_TO_CONTENT_GAP
+        
+        # Calculate actual available height for text
+        max_text_height = reference_top - content_start_y - heading_height - 40  # 40px safety margin
+        
+        # Ensure hadith text ends with fullstop
+        hadith_text = hadith['text'].rstrip()
+        if not hadith_text.endswith(('.', '!', '?', '।')):
+            hadith_text += "."
         
         # Check if hadith text fits in one slide
-        wrapped_lines = self.wrap_text(hadith['text'], main_font, MAX_TEXT_WIDTH - 60)
+        wrapped_lines = self.wrap_text(hadith_text, main_font, MAX_TEXT_WIDTH - 60)
         line_height = main_font.getbbox('A')[3] * LINE_SPACING
         total_text_height = len(wrapped_lines) * line_height
         
@@ -694,8 +928,8 @@ class HadithPostGenerator:
         needs_multiple_slides = total_text_height > max_text_height
         
         if needs_multiple_slides:
-            # Split text into balanced chunks
-            text_chunks = self.split_text_balanced(hadith['text'], main_font, max_text_height, MAX_TEXT_WIDTH - 60)
+            # Split text into balanced chunks (using text with fullstop)
+            text_chunks = self.split_text_balanced(hadith_text, main_font, max_text_height, MAX_TEXT_WIDTH - 60)
             
             # ⚠️ INSTAGRAM LIMIT: Max 10 slides per carousel
             if len(text_chunks) > 10:
@@ -740,98 +974,108 @@ class HadithPostGenerator:
             if USE_IMAGES and 'category' in hadith:
                 img = self.add_image_overlay(img, hadith['category'])
             
-            # Draw heading with proper ﷺ symbol
-            text_before = "The Prophet "
-            symbol = "ﷺ"  # Unicode symbol
-            text_after = " said:"
-            
-            # Calculate total width for centering
-            temp_bbox = heading_font.getbbox(text_before + text_after)
-            symbol_bbox = symbol_font.getbbox(symbol)
-            total_width = (temp_bbox[2] - temp_bbox[0]) + (symbol_bbox[2] - symbol_bbox[0]) + 5
-            heading_x = (IMAGE_WIDTH - total_width) // 2
-            
-            # Draw with special symbol handling
-            self.draw_text_with_symbol(
-                draw, heading_x, y_pos,
-                text_before, symbol, text_after,
-                heading_font, symbol_font,
-                self.theme['heading_color'],
-                self.theme['heading_color']
-            )
-            
-            y_pos += max(heading_font.getbbox("A")[3], symbol_font.getbbox(symbol)[3]) + 60
-            
-            # Better vertical centering considering image and spacing
+            # Initialize starting position for single slide
             if USE_IMAGES:
-                available_height = IMAGE_HEIGHT - int(IMAGE_HEIGHT * IMAGE_HEIGHT_RATIO) - PADDING * 2 - 250
-                y_pos = int(IMAGE_HEIGHT * IMAGE_HEIGHT_RATIO) + PADDING + 140 + (available_height - total_text_height) // 2
+                y_pos = int(IMAGE_HEIGHT * IMAGE_HEIGHT_RATIO) + PADDING_TOP
             else:
-                y_pos = (IMAGE_HEIGHT - total_text_height) // 2 - 20
+                y_pos = PADDING_TOP
             
-            # Draw text with subtle shadow for depth (optional)
-            for line in wrapped_lines:
-                bbox = main_font.getbbox(line)
-                line_width = bbox[2] - bbox[0]
-                line_x = (IMAGE_WIDTH - line_width) // 2
+            # Optional: Draw heading with proper ﷺ symbol (only if enabled in config)
+            if SHOW_HEADING_FIRST_SLIDE:
+                text_before = "Hadith of the Day"
+                symbol = ""  # Unicode symbol
+                text_after = ":"
                 
-                # Optional subtle shadow for aesthetic depth
+                # Calculate total width for centering
+                temp_bbox = heading_font.getbbox(text_before + text_after)
+                symbol_bbox = symbol_font.getbbox(symbol)
+                total_width = (temp_bbox[2] - temp_bbox[0]) + (symbol_bbox[2] - symbol_bbox[0]) + 5
+                heading_x = (IMAGE_WIDTH - total_width) // 2
+                
+                # Draw with special symbol handling
+                self.draw_text_with_symbol(
+                    draw, heading_x, y_pos,
+                    text_before, symbol, text_after,
+                    heading_font, symbol_font,
+                    self.theme['heading_color'],
+                    self.theme['heading_color']
+                )
+                
+                y_pos += max(heading_font.getbbox("A")[3], symbol_font.getbbox(symbol)[3]) + HEADING_TO_CONTENT_GAP
+            
+            # Calculate where reference will be placed
+            source_bbox = source_font.getbbox(f"{hadith['primary_source']} (Sahih)")
+            
+            # Calculate watermark position if present
+            watermark_y = None
+            watermark_height = 0
+            if WATERMARK:
+                watermark_font = self.get_font('source', WATERMARK_SIZE)
+                watermark_bbox = watermark_font.getbbox(WATERMARK)
+                watermark_height = watermark_bbox[3] - watermark_bbox[1]
+                watermark_y = IMAGE_HEIGHT - PADDING_BOTTOM - watermark_height
+            
+            # Position reference ABOVE watermark with proper spacing
+            if WATERMARK:
+                reference_y = watermark_y - source_bbox[3] - 20  # 20px gap
+            else:
+                reference_y = IMAGE_HEIGHT - PADDING_BOTTOM - source_bbox[3] - 10
+            
+            # Calculate available space and center content vertically
+            available_height = reference_y - y_pos
+            vertical_offset = (available_height - total_text_height) // 2
+            y_pos = y_pos + max(0, vertical_offset)
+            
+            # Draw text with proper alignment and symbol handling
+            for line in wrapped_lines:
+                # Calculate x position based on alignment
+                if TEXT_ALIGNMENT == "left":
+                    line_x = CONTENT_LEFT_MARGIN
+                elif TEXT_ALIGNMENT == "right":
+                    line_width = self.get_text_width_with_symbols(line, main_font, symbol_font)
+                    line_x = IMAGE_WIDTH - CONTENT_RIGHT_MARGIN - line_width
+                else:  # center
+                    line_width = self.get_text_width_with_symbols(line, main_font, symbol_font)
+                    line_x = (IMAGE_WIDTH - line_width) // 2
+                
+                # Draw with proper symbol handling
                 if TEXT_SHADOW:
                     shadow_offset = 2
-                    draw.text(
-                        (line_x + shadow_offset, y_pos + shadow_offset),
-                        line,
-                        fill=(0, 0, 0, 30),  # Very subtle shadow
-                        font=main_font
+                    self.draw_text_with_arabic_symbols(
+                        draw, line_x + shadow_offset, y_pos + shadow_offset, 
+                        line, main_font, symbol_font, (0, 0, 0, 30)
                     )
                 
-                # Main text
-                draw.text(
-                    (line_x, y_pos),
-                    line,
-                    fill=self.theme['text_color'],
-                    font=main_font
+                self.draw_text_with_arabic_symbols(
+                    draw, line_x, y_pos, line, main_font, symbol_font, 
+                    self.theme['text_color']
                 )
                 
                 y_pos += line_height
             
-            # Draw source at bottom with authenticity grade
+            # Draw reference (same logic as multi-slide)
             source_text = f"{hadith['primary_source']} (Sahih)"
             source_bbox = source_font.getbbox(source_text)
             source_width = source_bbox[2] - source_bbox[0]
-            source_x = (IMAGE_WIDTH - source_width) // 2
-            source_y = IMAGE_HEIGHT - PADDING - 130
             
-            # Draw primary source with bold styling
-            draw.text(
-                (source_x, source_y),
-                source_text,
-                fill=self.theme['source_color'],
-                font=source_font
-            )
+            # Position based on alignment setting
+            if REFERENCE_ALIGNMENT == "left":
+                source_x = CONTENT_LEFT_MARGIN
+            elif REFERENCE_ALIGNMENT == "right":
+                source_x = IMAGE_WIDTH - CONTENT_RIGHT_MARGIN - source_width
+            else:  # center
+                source_x = (IMAGE_WIDTH - source_width) // 2
             
-            # Draw verification note
-            verification_font = self.get_font('source', size=26)
-            verification_text = "Verified from 2+ authentic sources"
-            verif_bbox = verification_font.getbbox(verification_text)
-            verif_width = verif_bbox[2] - verif_bbox[0]
-            verif_x = (IMAGE_WIDTH - verif_width) // 2
-            verif_y = source_y + 45
+            # Use the calculated reference_y from above
+            draw.text((source_x, reference_y), source_text, fill=self.theme['source_color'], font=source_font)
             
-            draw.text(
-                (verif_x, verif_y),
-                verification_text,
-                fill=self.theme['source_color'],
-                font=verification_font
-            )
-            
-            # Optional watermark
+            # Watermark (draw AFTER reference)
             if WATERMARK:
                 watermark_font = self.get_font('source', WATERMARK_SIZE)
                 watermark_bbox = watermark_font.getbbox(WATERMARK)
                 watermark_width = watermark_bbox[2] - watermark_bbox[0]
                 watermark_x = (IMAGE_WIDTH - watermark_width) // 2
-                watermark_y = IMAGE_HEIGHT - PADDING - 40
+                # Use the watermark_y calculated above
                 
                 # Create semi-transparent watermark
                 watermark_color = self.hex_to_rgb(self.theme['source_color'])
