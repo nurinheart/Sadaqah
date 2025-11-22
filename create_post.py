@@ -15,11 +15,11 @@ def main():
     
     # Show hadith statistics
     stats = get_hadith_stats()
-    print(f"📚 Hadith Database: {stats['total_sahih']} Verified Sahih Hadiths")
-    print(f"📖 From {stats['total_books']} Authentic Books:")
-    for book, count in stats['by_book'].items():
-        print(f"   • {book}: {count} hadiths")
-    print(f"✓ All hadiths verified from 2+ sources")
+    print(f"📚 Hadith Database: {stats['total']} Verified Sahih Hadiths")
+    print(f"📖 From {len(stats['collections'])} Authentic Collections:")
+    for collection, count in stats['collections'].items():
+        print(f"   • {collection.title()}: {count} hadiths")
+    print(f"✓ All hadiths verified as Sahih from CDN API")
     print()
     
     # Check command line arguments

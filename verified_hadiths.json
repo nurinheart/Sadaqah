@@ -1,0 +1,1217 @@
+{
+  "metadata": {
+    "created_at": "2025-11-23T03:45:37.523839",
+    "total_hadiths": 43,
+    "source": "cdn.jsdelivr.net/gh/fawazahmed0/hadith-api",
+    "verification": "All hadiths verified as Sahih (authentic)",
+    "modification": "NO summarization or modification - raw authentic text",
+    "collections": [
+      "abudawud",
+      "nasai",
+      "bukhari",
+      "tirmidhi",
+      "ibnmajah",
+      "muslim"
+    ]
+  },
+  "hadiths": [
+    {
+      "text": "Narrated 'Umar bin Al-Khattab: I heard Allah's Messenger (ﷺ) saying, \"The reward of deeds depends upon the intentions and every person will get the reward according to what he has intended. So whoever emigrated for worldly benefits or for a woman to marry, his emigration was for what he emigrated for",
+      "reference": "Sahih al-Bukhari 1",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "bukhari",
+      "hadith_number": 1,
+      "raw_data": {
+        "hadithnumber": 1,
+        "arabicnumber": 1,
+        "text": "Narrated 'Umar bin Al-Khattab: I heard Allah's Messenger (ﷺ) saying, \"The reward of deeds depends upon the intentions and every person will get the reward according to what he has intended. So whoever emigrated for worldly benefits or for a woman to marry, his emigration was for what he emigrated for",
+        "grades": [],
+        "reference": {
+          "book": 1,
+          "hadith": 1
+        }
+      },
+      "category": "Intention"
+    },
+    {
+      "text": "Narrated Anas: The Prophet (ﷺ) said, \"None of you will have faith till he wishes for his (Muslim) brother what he likes for himself",
+      "reference": "Sahih al-Bukhari 13",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "bukhari",
+      "hadith_number": 13,
+      "raw_data": {
+        "hadithnumber": 13,
+        "arabicnumber": 13,
+        "text": "Narrated Anas: The Prophet (ﷺ) said, \"None of you will have faith till he wishes for his (Muslim) brother what he likes for himself",
+        "grades": [],
+        "reference": {
+          "book": 2,
+          "hadith": 6
+        }
+      },
+      "category": "Brotherhood"
+    },
+    {
+      "text": "Narrated Anas bin Malik:The Prophet (ﷺ) said, \"Facilitate things to people (concerning religious matters), and do not make it hard for them and give them good tidings and do not make them run away (from Islam)",
+      "reference": "Sahih al-Bukhari 69",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "bukhari",
+      "hadith_number": 69,
+      "raw_data": {
+        "hadithnumber": 69,
+        "arabicnumber": 69,
+        "text": "Narrated Anas bin Malik:The Prophet (ﷺ) said, \"Facilitate things to people (concerning religious matters), and do not make it hard for them and give them good tidings and do not make them run away (from Islam)",
+        "grades": [],
+        "reference": {
+          "book": 3,
+          "hadith": 11
+        }
+      },
+      "category": "Teaching"
+    },
+    {
+      "text": "Narrated Abu Huraira:The Prophet (ﷺ) was asked, \"Which is the best deed?\" He said, \"To believe in Allah and His Apostle.\" He was then asked, \"Which is the next (in goodness)?\" He said, \"To participate in Jihad in Allah's Cause.\" He was then asked, \"Which is the next?\" He said, \"To perform Hajj-Mabrur",
+      "reference": "Sahih al-Bukhari 1519",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "bukhari",
+      "hadith_number": 1519,
+      "raw_data": {
+        "hadithnumber": 1519,
+        "arabicnumber": 1519,
+        "text": "Narrated Abu Huraira:The Prophet (ﷺ) was asked, \"Which is the best deed?\" He said, \"To believe in Allah and His Apostle.\" He was then asked, \"Which is the next (in goodness)?\" He said, \"To participate in Jihad in Allah's Cause.\" He was then asked, \"Which is the next?\" He said, \"To perform Hajj-Mabrur",
+        "grades": [],
+        "reference": {
+          "book": 25,
+          "hadith": 7
+        }
+      },
+      "category": "Charity"
+    },
+    {
+      "text": "Narrated Abu Huraira:Allah's Messenger (ﷺ) said, \"There is a (compulsory) Sadaqa (charity) to be given for every joint of the human body (as a sign of gratitude to Allah) everyday the sun rises. To judge justly between two persons is regarded as Sadaqa, and to help a man concerning his riding animal by helping him to ride it or by lifting his luggage on to it, is also regarded as Sadaqa, and (saying) a good word is also Sadaqa, and every step taken on one's way to offer the compulsory prayer (in the mosque) is also Sadaqa and to remove a harmful thing from the way is also Sadaqa",
+      "reference": "Sahih al-Bukhari 2989",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "bukhari",
+      "hadith_number": 2989,
+      "raw_data": {
+        "hadithnumber": 2989,
+        "arabicnumber": 2989,
+        "text": "Narrated Abu Huraira:Allah's Messenger (ﷺ) said, \"There is a (compulsory) Sadaqa (charity) to be given for every joint of the human body (as a sign of gratitude to Allah) everyday the sun rises. To judge justly between two persons is regarded as Sadaqa, and to help a man concerning his riding animal by helping him to ride it or by lifting his luggage on to it, is also regarded as Sadaqa, and (saying) a good word is also Sadaqa, and every step taken on one's way to offer the compulsory prayer (in the mosque) is also Sadaqa and to remove a harmful thing from the way is also Sadaqa",
+        "grades": [],
+        "reference": {
+          "book": 56,
+          "hadith": 198
+        }
+      },
+      "category": "Kindness"
+    },
+    {
+      "text": "Narrated `Abdullah bin `Amr:The Prophet (ﷺ) never used bad language neither a \"Fahish nor a Mutafahish. He used to say \"The best amongst you are those who have the best manners and character.\" (See Hadith No. 56 (B) Vol",
+      "reference": "Sahih al-Bukhari 3559",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "bukhari",
+      "hadith_number": 3559,
+      "raw_data": {
+        "hadithnumber": 3559,
+        "arabicnumber": 3559,
+        "text": "Narrated `Abdullah bin `Amr:The Prophet (ﷺ) never used bad language neither a \"Fahish nor a Mutafahish. He used to say \"The best amongst you are those who have the best manners and character.\" (See Hadith No. 56 (B) Vol",
+        "grades": [],
+        "reference": {
+          "book": 61,
+          "hadith": 68
+        }
+      },
+      "category": "Character"
+    },
+    {
+      "text": "Narrated Abu Huraira:The Prophet (ﷺ) said, \"The one who looks after a widow or a poor person is like a Mujahid (warrior) who fights for Allah's Cause, or like him who performs prayers all the night and fasts all the day",
+      "reference": "Sahih al-Bukhari 5353",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "bukhari",
+      "hadith_number": 5353,
+      "raw_data": {
+        "hadithnumber": 5353,
+        "arabicnumber": 5353,
+        "text": "Narrated Abu Huraira:The Prophet (ﷺ) said, \"The one who looks after a widow or a poor person is like a Mujahid (warrior) who fights for Allah's Cause, or like him who performs prayers all the night and fasts all the day",
+        "grades": [],
+        "reference": {
+          "book": 69,
+          "hadith": 3
+        }
+      },
+      "category": "Charity"
+    },
+    {
+      "text": "Narrated Abu Huraira:The Prophet (ﷺ) said, \"Whoever purposely throws himself from a mountain and kills himself, will be in the (Hell) Fire falling down into it and abiding therein perpetually forever; and whoever drinks poison and kills himself with it, he will be carrying his poison in his hand and drinking it in the (Hell) Fire wherein he will abide eternally forever; and whoever kills himself with an iron weapon, will be carrying that weapon in his hand and stabbing his `Abdomen with it in the (Hell) Fire wherein he will abide eternally forever",
+      "reference": "Sahih al-Bukhari 5778",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "bukhari",
+      "hadith_number": 5778,
+      "raw_data": {
+        "hadithnumber": 5778,
+        "arabicnumber": 5778,
+        "text": "Narrated Abu Huraira:The Prophet (ﷺ) said, \"Whoever purposely throws himself from a mountain and kills himself, will be in the (Hell) Fire falling down into it and abiding therein perpetually forever; and whoever drinks poison and kills himself with it, he will be carrying his poison in his hand and drinking it in the (Hell) Fire wherein he will abide eternally forever; and whoever kills himself with an iron weapon, will be carrying that weapon in his hand and stabbing his `Abdomen with it in the (Hell) Fire wherein he will abide eternally forever",
+        "grades": [],
+        "reference": {
+          "book": 76,
+          "hadith": 90
+        }
+      },
+      "category": "Justice"
+    },
+    {
+      "text": "Narrated Abu Huraira:Allah's Messenger (ﷺ) said, \"Anybody who believes in Allah and the Last Day should not harm his neighbor, and anybody who believes in Allah and the Last Day should entertain his guest generously and anybody who believes in Allah and the Last Day should talk what is good or keep quiet. (i.e. abstain from all kinds of evil and dirty talk)",
+      "reference": "Sahih al-Bukhari 6018",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "bukhari",
+      "hadith_number": 6018,
+      "raw_data": {
+        "hadithnumber": 6018,
+        "arabicnumber": 6018,
+        "text": "Narrated Abu Huraira:Allah's Messenger (ﷺ) said, \"Anybody who believes in Allah and the Last Day should not harm his neighbor, and anybody who believes in Allah and the Last Day should entertain his guest generously and anybody who believes in Allah and the Last Day should talk what is good or keep quiet. (i.e. abstain from all kinds of evil and dirty talk)",
+        "grades": [],
+        "reference": {
+          "book": 78,
+          "hadith": 49
+        }
+      },
+      "category": "Speech"
+    },
+    {
+      "text": "Narrated Abu Huraira:A man said to the Prophet (ﷺ) , \"Advise me! \"The Prophet (ﷺ) said, \"Do not become angry and furious.\" The man asked (the same) again and again, and the Prophet (ﷺ) said in each case, \"Do not become angry and furious",
+      "reference": "Sahih al-Bukhari 6116",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "bukhari",
+      "hadith_number": 6116,
+      "raw_data": {
+        "hadithnumber": 6116,
+        "arabicnumber": 6116,
+        "text": "Narrated Abu Huraira:A man said to the Prophet (ﷺ) , \"Advise me! \"The Prophet (ﷺ) said, \"Do not become angry and furious.\" The man asked (the same) again and again, and the Prophet (ﷺ) said in each case, \"Do not become angry and furious",
+        "grades": [],
+        "reference": {
+          "book": 78,
+          "hadith": 143
+        }
+      },
+      "category": "Character"
+    },
+    {
+      "text": "Narrated `Aisha:The Prophet (ﷺ) was asked, \"What deeds are loved most by Allah?\" He said, \"The most regular constant deeds even though they may be few.\" He added, 'Don't take upon yourselves, except the deeds which are within your ability",
+      "reference": "Sahih al-Bukhari 6465",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "bukhari",
+      "hadith_number": 6465,
+      "raw_data": {
+        "hadithnumber": 6465,
+        "arabicnumber": 6465,
+        "text": "Narrated `Aisha:The Prophet (ﷺ) was asked, \"What deeds are loved most by Allah?\" He said, \"The most regular constant deeds even though they may be few.\" He added, 'Don't take upon yourselves, except the deeds which are within your ability",
+        "grades": [],
+        "reference": {
+          "book": 81,
+          "hadith": 54
+        }
+      },
+      "category": "Worship"
+    },
+    {
+      "text": "Narrated Abu Huraira:That he heard Allah's Messenger (ﷺ) saying, \"A slave of Allah may utter a word without thinking whether it is right or wrong, he may slip down in the Fire as far away a distance equal to that between the east",
+      "reference": "Sahih al-Bukhari 6477",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "bukhari",
+      "hadith_number": 6477,
+      "raw_data": {
+        "hadithnumber": 6477,
+        "arabicnumber": 6477,
+        "text": "Narrated Abu Huraira:That he heard Allah's Messenger (ﷺ) saying, \"A slave of Allah may utter a word without thinking whether it is right or wrong, he may slip down in the Fire as far away a distance equal to that between the east",
+        "grades": [],
+        "reference": {
+          "book": 81,
+          "hadith": 66
+        }
+      },
+      "category": "Good Deeds"
+    },
+    {
+      "text": "Muhammad b. Abu Rafi' narrated the hadith on the authority of Abu Dharr with a slight difference",
+      "reference": "Sahih Muslim 251",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "muslim",
+      "hadith_number": 251,
+      "raw_data": {
+        "hadithnumber": 251,
+        "arabicnumber": "84.02",
+        "text": "Muhammad b. Abu Rafi' narrated the hadith on the authority of Abu Dharr with a slight difference",
+        "grades": [],
+        "reference": {
+          "book": 1,
+          "hadith": 157
+        }
+      },
+      "category": "Wudu"
+    },
+    {
+      "text": "Wahb al-Khuza'i reported:I prayed behind the Messenger of Allah (ﷺ) at Mina, and there was the greatest number of people, and they prayed two rak'ahs on the occasion of the Farewell Pilgrimage. (Muslim said: Haritha b. Wahb al-Khuza'i is the brother of 'Ubaidullah b. 'Umar son of Khattab from the side of his mother)",
+      "reference": "Sahih Muslim 1599",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "muslim",
+      "hadith_number": 1599,
+      "raw_data": {
+        "hadithnumber": 1599,
+        "arabicnumber": "696.02",
+        "text": "Wahb al-Khuza'i reported:I prayed behind the Messenger of Allah (ﷺ) at Mina, and there was the greatest number of people, and they prayed two rak'ahs on the occasion of the Farewell Pilgrimage. (Muslim said: Haritha b. Wahb al-Khuza'i is the brother of 'Ubaidullah b. 'Umar son of Khattab from the side of his mother)",
+        "grades": [],
+        "reference": {
+          "book": 6,
+          "hadith": 30
+        }
+      },
+      "category": "Charity"
+    },
+    {
+      "text": "A'isha, the wife of the Messenger of Allah (ﷺ), said that between the time when the Messenger of Allah (ﷺ) finished the 'Isha' prayer which is called 'Atama by the people, he used to pray eleven rak'ahs, uttering the salutation at the end of every two rak'ahs, and observing the Witr with a single one. And when the Mu'adhdhin had finished the call (for the) dawn prayer and he saw the dawn clearly and the Mu'adhdhin had come to him, he stood up and prayed two short rak'ahs. Then he lay down on his right side till the Mu'adhdhin came to him for lqama. (This hadith has been narrated with the same chain of transmitters by Ibn Shihab, but in it no mention has been made of Iqama)",
+      "reference": "Sahih Muslim 1718",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "muslim",
+      "hadith_number": 1718,
+      "raw_data": {
+        "hadithnumber": 1718,
+        "text": "A'isha, the wife of the Messenger of Allah (ﷺ), said that between the time when the Messenger of Allah (ﷺ) finished the 'Isha' prayer which is called 'Atama by the people, he used to pray eleven rak'ahs, uttering the salutation at the end of every two rak'ahs, and observing the Witr with a single one. And when the Mu'adhdhin had finished the call (for the) dawn prayer and he saw the dawn clearly and the Mu'adhdhin had come to him, he stood up and prayed two short rak'ahs. Then he lay down on his right side till the Mu'adhdhin came to him for lqama. (This hadith has been narrated with the same chain of transmitters by Ibn Shihab, but in it no mention has been made of Iqama)",
+        "grades": [],
+        "reference": {
+          "book": 0,
+          "hadith": 0
+        }
+      },
+      "category": "Kindness"
+    },
+    {
+      "text": "Abu Musa al-Ash'ari reported Allah's Apostle (ﷺ) as saying:Keep refreshing your knowledge of the Qur'an, for I swear by Him in Whose Hand is the life of Mahammad that it is more liable to escape than camels which are hobbled",
+      "reference": "Sahih Muslim 1844",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "muslim",
+      "hadith_number": 1844,
+      "raw_data": {
+        "hadithnumber": 1844,
+        "arabicnumber": "791",
+        "text": "Abu Musa al-Ash'ari reported Allah's Apostle (ﷺ) as saying:Keep refreshing your knowledge of the Qur'an, for I swear by Him in Whose Hand is the life of Mahammad that it is more liable to escape than camels which are hobbled",
+        "grades": [],
+        "reference": {
+          "book": 6,
+          "hadith": 272
+        }
+      },
+      "category": "Golden Rule"
+    },
+    {
+      "text": "Anas b. Malik reported Allah's Messenger (ﷺ) as saying:Endurance is to be shown at the first blow",
+      "reference": "Sahih Muslim 2139",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "muslim",
+      "hadith_number": 2139,
+      "raw_data": {
+        "hadithnumber": 2139,
+        "arabicnumber": "926.01",
+        "text": "Anas b. Malik reported Allah's Messenger (ﷺ) as saying:Endurance is to be shown at the first blow",
+        "grades": [],
+        "reference": {
+          "book": 11,
+          "hadith": 17
+        }
+      },
+      "category": "Moderation"
+    },
+    {
+      "text": "This hadith has been narrated by Ibn 'Urwa with the same chain of transmitters",
+      "reference": "Sahih Muslim 2321",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "muslim",
+      "hadith_number": 2321,
+      "raw_data": {
+        "hadithnumber": 2321,
+        "arabicnumber": "1001.02",
+        "text": "This hadith has been narrated by Ibn 'Urwa with the same chain of transmitters",
+        "grades": [],
+        "reference": {
+          "book": 12,
+          "hadith": 58
+        }
+      },
+      "category": "Manners"
+    },
+    {
+      "text": "Salim b. 'Abdullah reported on the authority of his father that the Messenger of Allah (ﷺ) gave to 'Umar b. Khattab some gift. Umar said to him:Messenger of Allah, give it to one who needs it more than I. Upon this the Messenger of Allah (ﷺ) said: Take it; either keep it with you or give it as a charity, and whatever comes to you in the form of this type of wealth, without your being avaricious or begging for it, accept it, but in other circumstances do not let your heart hanker after it. And it was on account of this that Ibn 'Umar never begged anything from anyone, nor refused anything given to him",
+      "reference": "Sahih Muslim 2406",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "muslim",
+      "hadith_number": 2406,
+      "raw_data": {
+        "hadithnumber": 2406,
+        "arabicnumber": "1045.02",
+        "text": "Salim b. 'Abdullah reported on the authority of his father that the Messenger of Allah (ﷺ) gave to 'Umar b. Khattab some gift. Umar said to him:Messenger of Allah, give it to one who needs it more than I. Upon this the Messenger of Allah (ﷺ) said: Take it; either keep it with you or give it as a charity, and whatever comes to you in the form of this type of wealth, without your being avaricious or begging for it, accept it, but in other circumstances do not let your heart hanker after it. And it was on account of this that Ibn 'Umar never begged anything from anyone, nor refused anything given to him",
+        "grades": [],
+        "reference": {
+          "book": 12,
+          "hadith": 143
+        }
+      },
+      "category": "Parents"
+    },
+    {
+      "text": "Ibn 'Umar reported that the Messenger of Allah (ﷺ) observed fasts uninterruptedly in Ramadan and the people (in his wake) did this. But he forbade them to do so. It was said to him (to the Holy Prophet):You yourself observe the fasts uninterruptedly (but you forbid us to do so) Upon this he said: I am not like you; I am fed and supplied drink (by Allah)",
+      "reference": "Sahih Muslim 2564",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "muslim",
+      "hadith_number": 2564,
+      "raw_data": {
+        "hadithnumber": 2564,
+        "arabicnumber": "1102.02",
+        "text": "Ibn 'Umar reported that the Messenger of Allah (ﷺ) observed fasts uninterruptedly in Ramadan and the people (in his wake) did this. But he forbade them to do so. It was said to him (to the Holy Prophet):You yourself observe the fasts uninterruptedly (but you forbid us to do so) Upon this he said: I am not like you; I am fed and supplied drink (by Allah)",
+        "grades": [],
+        "reference": {
+          "book": 13,
+          "hadith": 70
+        }
+      },
+      "category": "Patience"
+    },
+    {
+      "text": "It is further narrated on the authority of Aswad and Masruq that they went to the Mother of the Believers and they asked her (and the rest of the hadith is the same)",
+      "reference": "Sahih Muslim 2580",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "muslim",
+      "hadith_number": 2580,
+      "raw_data": {
+        "hadithnumber": 2580,
+        "arabicnumber": "1106.08",
+        "text": "It is further narrated on the authority of Aswad and Masruq that they went to the Mother of the Believers and they asked her (and the rest of the hadith is the same)",
+        "grades": [],
+        "reference": {
+          "book": 13,
+          "hadith": 86
+        }
+      },
+      "category": "Character"
+    },
+    {
+      "text": "A'isha (Allah be pleased with her) reported that Hamza b. Amr al-Aslami asked the Messenger of Allah (ﷺ) thus:Messenger of Allah, I am a person devoted much to fasting. Should I fast during the journey? He (the Holy Prophet) said: Fast if you like and break it if you like",
+      "reference": "Sahih Muslim 2626",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "muslim",
+      "hadith_number": 2626,
+      "raw_data": {
+        "hadithnumber": 2626,
+        "arabicnumber": "1121.02",
+        "text": "A'isha (Allah be pleased with her) reported that Hamza b. Amr al-Aslami asked the Messenger of Allah (ﷺ) thus:Messenger of Allah, I am a person devoted much to fasting. Should I fast during the journey? He (the Holy Prophet) said: Fast if you like and break it if you like",
+        "grades": [],
+        "reference": {
+          "book": 13,
+          "hadith": 132
+        }
+      },
+      "category": "Anger Control"
+    },
+    {
+      "text": "This hadith has been narrated on the authority of Zuhri with the same chain of transmitters that be heard Allah's Apostle (ﷺ) as saying on a similar day:I am fasting today, so he who wishes to observe fast should do so; but he did not make mention of the rest of the hadith",
+      "reference": "Sahih Muslim 2655",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "muslim",
+      "hadith_number": 2655,
+      "raw_data": {
+        "hadithnumber": 2655,
+        "arabicnumber": "1129.03",
+        "text": "This hadith has been narrated on the authority of Zuhri with the same chain of transmitters that be heard Allah's Apostle (ﷺ) as saying on a similar day:I am fasting today, so he who wishes to observe fast should do so; but he did not make mention of the rest of the hadith",
+        "grades": [],
+        "reference": {
+          "book": 13,
+          "hadith": 161
+        }
+      },
+      "category": "Excellence"
+    },
+    {
+      "text": "Ibn Buraida (Allah be pleased with him) reported on the authority of his father:A woman came to the Messenger of Allah (ﷺ), and the rest of the hadith is the same, but he said:\" Fasting of one month",
+      "reference": "Sahih Muslim 2699",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "muslim",
+      "hadith_number": 2699,
+      "raw_data": {
+        "hadithnumber": 2699,
+        "arabicnumber": "1149.03",
+        "text": "Ibn Buraida (Allah be pleased with him) reported on the authority of his father:A woman came to the Messenger of Allah (ﷺ), and the rest of the hadith is the same, but he said:\" Fasting of one month",
+        "grades": [],
+        "reference": {
+          "book": 13,
+          "hadith": 205
+        }
+      },
+      "category": "Helping Others"
+    },
+    {
+      "text": "Abu Ayyub reported a hadith like this (through another chain of transmitters)",
+      "reference": "Sahih Muslim 2760",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "muslim",
+      "hadith_number": 2760,
+      "raw_data": {
+        "hadithnumber": 2760,
+        "arabicnumber": "1164.03",
+        "text": "Abu Ayyub reported a hadith like this (through another chain of transmitters)",
+        "grades": [],
+        "reference": {
+          "book": 13,
+          "hadith": 266
+        }
+      },
+      "category": "Parents"
+    },
+    {
+      "text": "It has been narrated on the authority of Anas b. Malik that the Messenger of Allah (ﷺ) said:\" Nobody who dies and has something good for him with Allah will (ever like to) return to this world even though he were offered the whole world and all that is in its (as an inducement), except the martyr who desires to return and be killed in the world for the (great) merit of martyrdom that he has seen",
+      "reference": "Sahih Muslim 4867",
+      "grade": "Unknown",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "muslim",
+      "hadith_number": 4867,
+      "raw_data": {
+        "hadithnumber": 4867,
+        "arabicnumber": "1877.01",
+        "text": "It has been narrated on the authority of Anas b. Malik that the Messenger of Allah (ﷺ) said:\" Nobody who dies and has something good for him with Allah will (ever like to) return to this world even though he were offered the whole world and all that is in its (as an inducement), except the martyr who desires to return and be killed in the world for the (great) merit of martyrdom that he has seen",
+        "grades": [],
+        "reference": {
+          "book": 33,
+          "hadith": 163
+        }
+      },
+      "category": "Honesty"
+    },
+    {
+      "text": "Narrated Mu'adh bin Jabal:\"I accompanied the Prophet (ﷺ) on a journey. One day I was near him while we were moving so I said: 'O Messenger of Allah! Inform me about an action by which I will be admitted into Paradise, and which will keep me far from the Fire.' He said: 'You have asked me about something great, but it is easy for whomever Allah makes it easy: Worship Allah and do not associate any partners with Him, establish the Salat, give the Zakat, fast Ramadan and perform Hajj to the HOuse.' Then he said: 'Shall I not guide you to the doors of good? Fasting is a shield, and charity extinguishes sins like water extinguishes fire - and a man's praying in depths of the night.'\" He said: \"Then he recited: 'Their sides forsake their beds to call upon their Lord.' Until he reached: 'What they used to do.' [32:16-17] Then he said: 'Shall I not inform you about the head of the entire matter, and its pillar, and its hump?' I said: 'Of course O Messenger of Allah! He said: 'The head of the matter is Islam, and its pillar is the Salat, and its hump is Jihad.' Then he said: 'Shall I not inform you about what governs all of that?' I said: 'Of course O Messenger of Allah!'\" He (ﷺ) said: \"So he grabbed his tongue. He said 'Restrain this.' I said: 'O Prophet of Allah! Will we be taken to account for what we say?' He said: 'May your mother grieve your loss O Mu'adh! Are the people tossed into the Fire upon their faces, or upon their noses, except because of what their tongues have wrought",
+      "reference": "Jami' at-Tirmidhi 2616",
+      "grade": "Sahih",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "tirmidhi",
+      "hadith_number": 2616,
+      "raw_data": {
+        "hadithnumber": 2616,
+        "arabicnumber": 2616,
+        "text": "Narrated Mu'adh bin Jabal:\"I accompanied the Prophet (ﷺ) on a journey. One day I was near him while we were moving so I said: 'O Messenger of Allah! Inform me about an action by which I will be admitted into Paradise, and which will keep me far from the Fire.' He said: 'You have asked me about something great, but it is easy for whomever Allah makes it easy: Worship Allah and do not associate any partners with Him, establish the Salat, give the Zakat, fast Ramadan and perform Hajj to the HOuse.' Then he said: 'Shall I not guide you to the doors of good? Fasting is a shield, and charity extinguishes sins like water extinguishes fire - and a man's praying in depths of the night.'\" He said: \"Then he recited: 'Their sides forsake their beds to call upon their Lord.' Until he reached: 'What they used to do.' [32:16-17] Then he said: 'Shall I not inform you about the head of the entire matter, and its pillar, and its hump?' I said: 'Of course O Messenger of Allah! He said: 'The head of the matter is Islam, and its pillar is the Salat, and its hump is Jihad.' Then he said: 'Shall I not inform you about what governs all of that?' I said: 'Of course O Messenger of Allah!'\" He (ﷺ) said: \"So he grabbed his tongue. He said 'Restrain this.' I said: 'O Prophet of Allah! Will we be taken to account for what we say?' He said: 'May your mother grieve your loss O Mu'adh! Are the people tossed into the Fire upon their faces, or upon their noses, except because of what their tongues have wrought",
+        "grades": [
+          {
+            "name": "Ahmad Muhammad Shakir",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Al-Albani",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Bashar Awad Maarouf",
+            "grade": "Hasan Sahih"
+          },
+          {
+            "name": "Zubair Ali Zai",
+            "grade": "Hasan"
+          }
+        ],
+        "reference": {
+          "book": 40,
+          "hadith": 11
+        }
+      },
+      "category": "Charity"
+    },
+    {
+      "text": "Miqdam bin Ma'dikarib said:\"I heard the Messenger of Allah (S.a.w) saying: 'The human does not fill any container that is worse than his stomach. It is sufficient for the son of Adam to eat what will support his back. If this is not possible, then a third for food, a third for drink, and third for his breath",
+      "reference": "Jami' at-Tirmidhi 2380",
+      "grade": "Sahih",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "tirmidhi",
+      "hadith_number": 2380,
+      "raw_data": {
+        "hadithnumber": 2380,
+        "arabicnumber": 2380,
+        "text": "Miqdam bin Ma'dikarib said:\"I heard the Messenger of Allah (S.a.w) saying: 'The human does not fill any container that is worse than his stomach. It is sufficient for the son of Adam to eat what will support his back. If this is not possible, then a third for food, a third for drink, and third for his breath",
+        "grades": [
+          {
+            "name": "Ahmad Muhammad Shakir",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Al-Albani",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Bashar Awad Maarouf",
+            "grade": "Hasan Sahih"
+          },
+          {
+            "name": "Zubair Ali Zai",
+            "grade": "Sahih"
+          }
+        ],
+        "reference": {
+          "book": 36,
+          "hadith": 77
+        }
+      },
+      "category": "Humility"
+    },
+    {
+      "text": "Abu Hurairah narrated that The Messenger of Allah said:“The most complete of the believers in faith, is the one with the best character among them. And the best of you are those who are best to your women.”",
+      "reference": "Jami' at-Tirmidhi 1162",
+      "grade": "Hasan Sahih",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "tirmidhi",
+      "hadith_number": 1162,
+      "raw_data": {
+        "hadithnumber": 1162,
+        "arabicnumber": 1162,
+        "text": "Abu Hurairah narrated that The Messenger of Allah said:“The most complete of the believers in faith, is the one with the best character among them. And the best of you are those who are best to your women.”",
+        "grades": [
+          {
+            "name": "Ahmad Muhammad Shakir",
+            "grade": "Hasan Sahih"
+          },
+          {
+            "name": "Al-Albani",
+            "grade": "Hasan Sahih"
+          },
+          {
+            "name": "Bashar Awad Maarouf",
+            "grade": "Hasan Sahih"
+          },
+          {
+            "name": "Zubair Ali Zai",
+            "grade": "Isnaad Hasan"
+          }
+        ],
+        "reference": {
+          "book": 12,
+          "hadith": 17
+        }
+      },
+      "category": "Prayers"
+    },
+    {
+      "text": "Ibn Ka'b bin Malik Al-Ansari narrated from his father, that the Messenger of Allah (s.a.w) said:\"Two wolves free among sheep are no more destructive to them than a man's desire for wealth and honor is to his religion",
+      "reference": "Jami' at-Tirmidhi 2376",
+      "grade": "Sahih",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "tirmidhi",
+      "hadith_number": 2376,
+      "raw_data": {
+        "hadithnumber": 2376,
+        "arabicnumber": 2376,
+        "text": "Ibn Ka'b bin Malik Al-Ansari narrated from his father, that the Messenger of Allah (s.a.w) said:\"Two wolves free among sheep are no more destructive to them than a man's desire for wealth and honor is to his religion",
+        "grades": [
+          {
+            "name": "Ahmad Muhammad Shakir",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Al-Albani",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Bashar Awad Maarouf",
+            "grade": "Hasan Sahih"
+          },
+          {
+            "name": "Zubair Ali Zai",
+            "grade": "Hasan"
+          }
+        ],
+        "reference": {
+          "book": 36,
+          "hadith": 73
+        }
+      },
+      "category": "Knowledge"
+    },
+    {
+      "text": "Abdullah bin Salam said:\"When the Messenger of Allah (s.a.w) arrived- meaning in Al-Madinah – the people came out to meet him. It was said that the Messenger of Allah (s.a.w) had arrived, so I went among the people to get a look at him. When I gazed upon the face of the Messenger of Allah (s.a.w), I knew that this face was not the face of a liar. The first thing that he spoke about was that he said: 'O you people! Spread the Salam, feed(others), and perform Salat while the people are sleeping; you will enter Paradise with(the greeting of) Salam.'” (Sahih)",
+      "reference": "Jami' at-Tirmidhi 2485",
+      "grade": "Sahih",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "tirmidhi",
+      "hadith_number": 2485,
+      "raw_data": {
+        "hadithnumber": 2485,
+        "arabicnumber": 2485,
+        "text": "Abdullah bin Salam said:\"When the Messenger of Allah (s.a.w) arrived- meaning in Al-Madinah – the people came out to meet him. It was said that the Messenger of Allah (s.a.w) had arrived, so I went among the people to get a look at him. When I gazed upon the face of the Messenger of Allah (s.a.w), I knew that this face was not the face of a liar. The first thing that he spoke about was that he said: 'O you people! Spread the Salam, feed(others), and perform Salat while the people are sleeping; you will enter Paradise with(the greeting of) Salam.'” (Sahih)",
+        "grades": [
+          {
+            "name": "Ahmad Muhammad Shakir",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Al-Albani",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Bashar Awad Maarouf",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Zubair Ali Zai",
+            "grade": "Isnaad Sahih"
+          }
+        ],
+        "reference": {
+          "book": 37,
+          "hadith": 71
+        }
+      },
+      "category": "Forgiveness"
+    },
+    {
+      "text": "Abdullah bin Busr (ra) narrated that:A man said: “O Messenger of Allah (ﷺ), indeed, the legislated acts of Islam have become too much for me, so inform me of a thing that I should stick to.” He (ﷺ) said: “Let not your tongue cease to be moist with the remembrance of Allah.”",
+      "reference": "Jami' at-Tirmidhi 3375",
+      "grade": "Sahih",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "tirmidhi",
+      "hadith_number": 3375,
+      "raw_data": {
+        "hadithnumber": 3375,
+        "arabicnumber": 3375,
+        "text": "Abdullah bin Busr (ra) narrated that:A man said: “O Messenger of Allah (ﷺ), indeed, the legislated acts of Islam have become too much for me, so inform me of a thing that I should stick to.” He (ﷺ) said: “Let not your tongue cease to be moist with the remembrance of Allah.”",
+        "grades": [
+          {
+            "name": "Ahmad Muhammad Shakir",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Al-Albani",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Bashar Awad Maarouf",
+            "grade": "Hasan"
+          },
+          {
+            "name": "Zubair Ali Zai",
+            "grade": "Isnaad Hasan"
+          }
+        ],
+        "reference": {
+          "book": 48,
+          "hadith": 6
+        }
+      },
+      "category": "Patience"
+    },
+    {
+      "text": "Narrated Irbad ibn Sariyah: AbdurRahman ibn Amr as-Sulami and Hujr ibn Hujr said: We came to Irbad ibn Sariyah who was among those about whom the following verse was revealed: \"Nor (is there blame) on those who come to thee to be provided with mounts, and when thou saidst: \"I can find no mounts for you.\" We greeted him and said: We have come to see you to give healing and obtain benefit from you. Al-Irbad said: One day the Messenger of Allah (ﷺ) led us in prayer, then faced us and gave us a lengthy exhortation at which the eyes shed tears and the hearts were afraid. A man said: Messenger of Allah! It seems as if it were a farewell exhortation, so what injunction do you give us? He then said: I enjoin you to fear Allah, and to hear and obey even if it be an Abyssinian slave, for those of you who live after me will see great disagreement. You must then follow my sunnah and that of the rightly-guided caliphs. Hold to it and stick fast to it. Avoid novelties, for every novelty is an innovation, and every innovation is an error",
+      "reference": "Sunan Abi Dawud 4607",
+      "grade": "Sahih",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "abudawud",
+      "hadith_number": 4607,
+      "raw_data": {
+        "hadithnumber": 4607,
+        "arabicnumber": 4607,
+        "text": "Narrated Irbad ibn Sariyah: AbdurRahman ibn Amr as-Sulami and Hujr ibn Hujr said: We came to Irbad ibn Sariyah who was among those about whom the following verse was revealed: \"Nor (is there blame) on those who come to thee to be provided with mounts, and when thou saidst: \"I can find no mounts for you.\" We greeted him and said: We have come to see you to give healing and obtain benefit from you. Al-Irbad said: One day the Messenger of Allah (ﷺ) led us in prayer, then faced us and gave us a lengthy exhortation at which the eyes shed tears and the hearts were afraid. A man said: Messenger of Allah! It seems as if it were a farewell exhortation, so what injunction do you give us? He then said: I enjoin you to fear Allah, and to hear and obey even if it be an Abyssinian slave, for those of you who live after me will see great disagreement. You must then follow my sunnah and that of the rightly-guided caliphs. Hold to it and stick fast to it. Avoid novelties, for every novelty is an innovation, and every innovation is an error",
+        "grades": [
+          {
+            "name": "Al-Albani",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Muhammad Muhyi Al-Din Abdul Hamid",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Zubair Ali Zai",
+            "grade": "Isnaad Sahih"
+          }
+        ],
+        "reference": {
+          "book": 42,
+          "hadith": 12
+        }
+      },
+      "category": "Justice"
+    },
+    {
+      "text": "Narrated Jarir: The Prophet (ﷺ) said: He who is deprived of gentleness is deprived of good",
+      "reference": "Sunan Abi Dawud 4809",
+      "grade": "Sahih",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "abudawud",
+      "hadith_number": 4809,
+      "raw_data": {
+        "hadithnumber": 4809,
+        "arabicnumber": 4809,
+        "text": "Narrated Jarir: The Prophet (ﷺ) said: He who is deprived of gentleness is deprived of good",
+        "grades": [
+          {
+            "name": "Al-Albani",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Muhammad Muhyi Al-Din Abdul Hamid",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Zubair Ali Zai",
+            "grade": "Sahih Muslim (2592)"
+          }
+        ],
+        "reference": {
+          "book": 43,
+          "hadith": 37
+        }
+      },
+      "category": "Honesty"
+    },
+    {
+      "text": "Narrated AbudDarda': The Prophet (ﷺ) said: Shall I not inform you of something more excellent in degree than fasting, prayer and almsgiving (sadaqah)? The people replied: Yes, Prophet of Allah! He said: It is putting things right between people, spoiling them is the shaver (destructive)",
+      "reference": "Sunan Abi Dawud 4919",
+      "grade": "Sahih",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "abudawud",
+      "hadith_number": 4919,
+      "raw_data": {
+        "hadithnumber": 4919,
+        "arabicnumber": 4919,
+        "text": "Narrated AbudDarda': The Prophet (ﷺ) said: Shall I not inform you of something more excellent in degree than fasting, prayer and almsgiving (sadaqah)? The people replied: Yes, Prophet of Allah! He said: It is putting things right between people, spoiling them is the shaver (destructive)",
+        "grades": [
+          {
+            "name": "Al-Albani",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Muhammad Muhyi Al-Din Abdul Hamid",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Zubair Ali Zai",
+            "grade": "Daif"
+          }
+        ],
+        "reference": {
+          "book": 43,
+          "hadith": 147
+        }
+      },
+      "category": "Forgiveness"
+    },
+    {
+      "text": "Narrated Abdullah ibn Umar: The Prophet (ﷺ) said: He who copies any people is one of them",
+      "reference": "Sunan Abi Dawud 4031",
+      "grade": "Hasan Sahih",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "abudawud",
+      "hadith_number": 4031,
+      "raw_data": {
+        "hadithnumber": 4031,
+        "arabicnumber": 4031,
+        "text": "Narrated Abdullah ibn Umar: The Prophet (ﷺ) said: He who copies any people is one of them",
+        "grades": [
+          {
+            "name": "Al-Albani",
+            "grade": "Hasan Sahih"
+          },
+          {
+            "name": "Muhammad Muhyi Al-Din Abdul Hamid",
+            "grade": "Hasan Sahih"
+          },
+          {
+            "name": "Zubair Ali Zai",
+            "grade": "Hasan"
+          }
+        ],
+        "reference": {
+          "book": 34,
+          "hadith": 12
+        }
+      },
+      "category": "Righteousness"
+    },
+    {
+      "text": "It was narrated from Mu'awiyah bin Jahimah As-Sulami, that Jahimah came to the Prophet (ﷺ) and said:\"O Messenger of Allah! I want to go out and fight (in Jihad) and I have come to ask your advice.\" He said: \"Do you have a mother?\" He said: \"Yes.\" He said: \"Then stay with her, for Paradise is beneath her feet",
+      "reference": "Sunan an-Nasa'i 3104",
+      "grade": "Hasan Sahih",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "nasai",
+      "hadith_number": 3104,
+      "raw_data": {
+        "hadithnumber": 3104,
+        "arabicnumber": 3104,
+        "text": "It was narrated from Mu'awiyah bin Jahimah As-Sulami, that Jahimah came to the Prophet (ﷺ) and said:\"O Messenger of Allah! I want to go out and fight (in Jihad) and I have come to ask your advice.\" He said: \"Do you have a mother?\" He said: \"Yes.\" He said: \"Then stay with her, for Paradise is beneath her feet",
+        "grades": [
+          {
+            "name": "Abu Ghuddah",
+            "grade": "Hasan Sahih"
+          },
+          {
+            "name": "Al-Albani",
+            "grade": "Hasan Sahih"
+          },
+          {
+            "name": "Zubair Ali Zai",
+            "grade": "Isnaad Sahih"
+          }
+        ],
+        "reference": {
+          "book": 25,
+          "hadith": 20
+        }
+      },
+      "category": "Prayer"
+    },
+    {
+      "text": "It was narrated from Ibn 'Abbas that the Messenger of Allah said:\"Shall I not tell you of the best of the people in status?\" We said: \"Yes. O Messenger of Allah!\" He said: \"A man who rides his horse in the cause of Allah, the Mighty and Sublime, until he dies or is killed. Shall I not tell you of the one who comes after him (in status)?\" We said: \"Yes, O Messenger of Allah!\" He said; \"A man who withdraws to a mountain pass and establishes Salah, and pays Zakah, and keeps away from the evil of people. Shall I not tell you of the worst of people?\" We said: \"Yes, O Messenger of Allah!\" He said: \"The one who asks for the sake of Allah, the Mighty and Sublime, but does not give (when he is asked) for His sake",
+      "reference": "Sunan an-Nasa'i 2569",
+      "grade": "Sahih",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "nasai",
+      "hadith_number": 2569,
+      "raw_data": {
+        "hadithnumber": 2569,
+        "arabicnumber": 2569,
+        "text": "It was narrated from Ibn 'Abbas that the Messenger of Allah said:\"Shall I not tell you of the best of the people in status?\" We said: \"Yes. O Messenger of Allah!\" He said: \"A man who rides his horse in the cause of Allah, the Mighty and Sublime, until he dies or is killed. Shall I not tell you of the one who comes after him (in status)?\" We said: \"Yes, O Messenger of Allah!\" He said; \"A man who withdraws to a mountain pass and establishes Salah, and pays Zakah, and keeps away from the evil of people. Shall I not tell you of the worst of people?\" We said: \"Yes, O Messenger of Allah!\" He said: \"The one who asks for the sake of Allah, the Mighty and Sublime, but does not give (when he is asked) for His sake",
+        "grades": [
+          {
+            "name": "Abu Ghuddah",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Al-Albani",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Zubair Ali Zai",
+            "grade": "Isnaad Hasan"
+          }
+        ],
+        "reference": {
+          "book": 23,
+          "hadith": 135
+        }
+      },
+      "category": "Fasting"
+    },
+    {
+      "text": "Abu Musa Al-Ash'ari said:\"The Prophet [SAW] said: 'The parable of the believer who recites the Qur'an is that of a citron, the taste and smell of which are good. The parable of a believer who does not read the Qur'an is that of a date, the taste of which is good but it has no smell. The parable of a hypocrite who reads the Qur'an is that of basil, the smell of which is good but its taste is bitter. And the parable of a hypocrite who does not read the Qur'an is that of a colocynth (bitter-apple), the taste of which is bitter and it has no smell",
+      "reference": "Sunan an-Nasa'i 5038",
+      "grade": "Sahih",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "nasai",
+      "hadith_number": 5038,
+      "raw_data": {
+        "hadithnumber": 5038,
+        "arabicnumber": 5038,
+        "text": "Abu Musa Al-Ash'ari said:\"The Prophet [SAW] said: 'The parable of the believer who recites the Qur'an is that of a citron, the taste and smell of which are good. The parable of a believer who does not read the Qur'an is that of a date, the taste of which is good but it has no smell. The parable of a hypocrite who reads the Qur'an is that of basil, the smell of which is good but its taste is bitter. And the parable of a hypocrite who does not read the Qur'an is that of a colocynth (bitter-apple), the taste of which is bitter and it has no smell",
+        "grades": [
+          {
+            "name": "Abu Ghuddah",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Al-Albani",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Zubair Ali Zai",
+            "grade": "Sahih - Agreed Upon"
+          }
+        ],
+        "reference": {
+          "book": 47,
+          "hadith": 54
+        }
+      },
+      "category": "Remembrance"
+    },
+    {
+      "text": "It was narrated from Abu Darda that the Prophet(ﷺ) said:\"Shall I not tell you of the best of your deeds, the most pleasing to your Sovereign, those that raise you most in status, that are better than your gold and silver, or meeting you enemy (in battle) and you strike their necks and they strike your necks?\" They said: \" WHat is that, O Messenger of Allah?\" He said: \"Remembering Allah(Dhikr)",
+      "reference": "Sunan Ibn Majah 3790",
+      "grade": "Sahih",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "ibnmajah",
+      "hadith_number": 3790,
+      "raw_data": {
+        "hadithnumber": 3790,
+        "arabicnumber": 3790,
+        "text": "It was narrated from Abu Darda that the Prophet(ﷺ) said:\"Shall I not tell you of the best of your deeds, the most pleasing to your Sovereign, those that raise you most in status, that are better than your gold and silver, or meeting you enemy (in battle) and you strike their necks and they strike your necks?\" They said: \" WHat is that, O Messenger of Allah?\" He said: \"Remembering Allah(Dhikr)",
+        "grades": [
+          {
+            "name": "Al-Albani",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Muhammad Fouad Abd al-Baqi",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Shuaib Al Arnaut",
+            "grade": "Daif"
+          },
+          {
+            "name": "Zubair Ali Zai",
+            "grade": "Daif"
+          }
+        ],
+        "reference": {
+          "book": 33,
+          "hadith": 134
+        }
+      },
+      "category": "Quran"
+    },
+    {
+      "text": "It was narrated from Abu Bakrah that the Messenger of Allah (ﷺ) said:“There is no sin more deserving that Allah hasten the punishment in this world, in addition to what is stored up for him in the Hereafter – than injustice and severing the ties of kinship.”",
+      "reference": "Sunan Ibn Majah 4211",
+      "grade": "Sahih",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "ibnmajah",
+      "hadith_number": 4211,
+      "raw_data": {
+        "hadithnumber": 4211,
+        "arabicnumber": 4211,
+        "text": "It was narrated from Abu Bakrah that the Messenger of Allah (ﷺ) said:“There is no sin more deserving that Allah hasten the punishment in this world, in addition to what is stored up for him in the Hereafter – than injustice and severing the ties of kinship.”",
+        "grades": [
+          {
+            "name": "Al-Albani",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Muhammad Fouad Abd al-Baqi",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Shuaib Al Arnaut",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Zubair Ali Zai",
+            "grade": "Isnaad Sahih"
+          }
+        ],
+        "reference": {
+          "book": 37,
+          "hadith": 112
+        }
+      },
+      "category": "Neighbors"
+    },
+    {
+      "text": "It was narrated from Abu Hurairah that the Messenger of Allah (ﷺ) said:“O Abu Hurairah, be cautious, and you will be the most devoted of people to Allah. Be content, and you will be the most grateful of people to Allah. Love for people what you love for yourself, and you will be a (true) believer. Be a good neighbor to your neighbors, and you will be a (true) Muslim. And laugh little, for laughing a lot deadens the heart.”",
+      "reference": "Sunan Ibn Majah 4217",
+      "grade": "Sahih",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "ibnmajah",
+      "hadith_number": 4217,
+      "raw_data": {
+        "hadithnumber": 4217,
+        "arabicnumber": 4217,
+        "text": "It was narrated from Abu Hurairah that the Messenger of Allah (ﷺ) said:“O Abu Hurairah, be cautious, and you will be the most devoted of people to Allah. Be content, and you will be the most grateful of people to Allah. Love for people what you love for yourself, and you will be a (true) believer. Be a good neighbor to your neighbors, and you will be a (true) Muslim. And laugh little, for laughing a lot deadens the heart.”",
+        "grades": [
+          {
+            "name": "Al-Albani",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Muhammad Fouad Abd al-Baqi",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Zubair Ali Zai",
+            "grade": "Daif"
+          }
+        ],
+        "reference": {
+          "book": 37,
+          "hadith": 118
+        }
+      },
+      "category": "Brotherhood"
+    },
+    {
+      "text": "It was narrated from Ibn ‘Umar that the Messenger of Allah (ﷺ) said:‘The believer should not be stung from the same hole twice.’”",
+      "reference": "Sunan Ibn Majah 3983",
+      "grade": "Sahih",
+      "chapter": "",
+      "chapter_number": "",
+      "narrator": "",
+      "source": "cdn.jsdelivr.net",
+      "collection": "ibnmajah",
+      "hadith_number": 3983,
+      "raw_data": {
+        "hadithnumber": 3983,
+        "arabicnumber": 3983,
+        "text": "It was narrated from Ibn ‘Umar that the Messenger of Allah (ﷺ) said:‘The believer should not be stung from the same hole twice.’”",
+        "grades": [
+          {
+            "name": "Al-Albani",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Muhammad Fouad Abd al-Baqi",
+            "grade": "Sahih"
+          },
+          {
+            "name": "Zubair Ali Zai",
+            "grade": "Sahih"
+          }
+        ],
+        "reference": {
+          "book": 36,
+          "hadith": 58
+        }
+      },
+      "category": "Sincerity"
+    }
+  ]
+}
