@@ -59,6 +59,11 @@ jobs:
         INSTAGRAM_SESSION_DATA: ${{ secrets.INSTAGRAM_SESSION_DATA }}
         PYTHONUNBUFFERED: 1
     
+    - name: Archive generated slides
+      run: |
+        python3 archive_slides.py
+      continue-on-error: false
+    
     - name: Upload output logs (on failure)
       if: failure()
       uses: actions/upload-artifact@v4
@@ -67,11 +72,11 @@ jobs:
         path: logs/
         retention-days: 7
     
-    - name: Commit posted hadiths and image usage tracking
+    - name: Commit posted hadiths, image usage, and archived slides
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git add posted_hadiths.json image_usage.json
-        git diff --staged --quiet || git commit -m "Update posted hadiths and image usage tracking [skip ci]"
+        git add posted_hadiths.json image_usage.json archive/
+        git diff --staged --quiet || git commit -m "Archive hadith slides and update tracking [skip ci]"
         git push
       continue-on-error: true

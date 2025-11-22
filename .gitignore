@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# Environment
+.env
+.env.local
+
+# Temporary output (archived separately)
+output/*.png
+
+# Session data
+session.json
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Generated scripts (one-time use)
+fetch_*.py
+download_*.py
+simple_download.py
+generate_more_images.py
+add_more_nature_images.py
