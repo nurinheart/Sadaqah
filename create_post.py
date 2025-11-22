@@ -25,10 +25,23 @@ def main():
     # Check command line arguments
     auto_post = '--post' in sys.argv or '-p' in sys.argv
     theme = DEFAULT_THEME
+    specific_index = None
     
-    for arg in sys.argv[1:]:
-        if arg not in ['--post', '-p']:
+    # Parse arguments
+    i = 1
+    while i < len(sys.argv):
+        arg = sys.argv[i]
+        if arg in ['--post', '-p']:
+            pass
+        elif arg == '--index' and i + 1 < len(sys.argv):
+            specific_index = int(sys.argv[i + 1])
+            i += 1
+        elif arg == '--auto-post' and i + 1 < len(sys.argv):
+            auto_post = sys.argv[i + 1].lower() in ['true', 'yes', '1']
+            i += 1
+        elif not arg.startswith('--'):
             theme = arg
+        i += 1
     
     # Generate post
     generator = HadithPostGenerator(theme)
@@ -36,11 +49,19 @@ def main():
     print(f"🎨 Theme: {theme}")
     print(f"🖼️  Images: {'Enabled' if USE_IMAGES else 'Disabled (Minimal)'}")
     print(f"📱 Auto-post: {'Yes' if auto_post else 'No'}")
+    if specific_index is not None:
+        print(f"📍 Using hadith index: {specific_index}")
     print()
     
-    filename, index, hadith = generator.generate_post()
+    filenames, index, hadith = generator.generate_post(specific_index=specific_index)
     
-    print(f"✅ Generated: {filename}")
+    if len(filenames) == 1:
+        print(f"✅ Generated: {filenames[0]}")
+    else:
+        print(f"✅ Generated {len(filenames)} slides:")
+        for i, fname in enumerate(filenames, 1):
+            print(f"   Slide {i}: {fname}")
+    
     print(f"📖 Hadith {index + 1}/{len(generator.hadiths)}")
     print(f"📚 Book: {hadith['book']}")
     print(f"✓ Grade: {hadith['grade']} (Verified)")
@@ -68,10 +89,15 @@ def main():
             )
             hashtags = get_default_hashtags()
             
-            poster.post_image(filename, caption, hashtags)
+            # Post as single image or carousel, with auto-story sharing
+            poster.post_image(filenames, caption, hashtags, share_to_story=True)
             
             print()
             print("🎉 POSTED TO INSTAGRAM!")
+            if len(filenames) > 1:
+                print(f"📱 Posted as CAROUSEL with {len(filenames)} slides")
+            print("📱 Auto-shared to STORY with link to post!")
+            print()
             print("⚠️  IMPORTANT: Add Quran audio manually:")
             print("   1. Open Instagram app")
             print("   2. Find your post")
@@ -85,11 +111,19 @@ def main():
             print("   Then create .env file with credentials")
         except Exception as e:
             print(f"❌ Auto-posting failed: {e}")
+            import traceback
+            traceback.print_exc()
             print("   You can still post manually!")
     else:
         print("📱 MANUAL POSTING:")
-        print("   1. Open the image from 'output' folder")
-        print("   2. Upload to Instagram")
+        if len(filenames) > 1:
+            print(f"   📖 This is a CAROUSEL with {len(filenames)} slides")
+            print("   1. Open Instagram app")
+            print("   2. Create new post → Select multiple images")
+            print("   3. Select all slides in order from 'output' folder")
+        else:
+            print("   1. Open the image from 'output' folder")
+            print("   2. Upload to Instagram")
         print("   3. Add Quran recitation from Instagram music library")
         print("   4. Add hashtags (see suggestions below)")
         print("   5. Post! 🚀")

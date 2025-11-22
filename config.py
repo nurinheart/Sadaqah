@@ -113,7 +113,7 @@ WATERMARK_OPACITY = 100  # 0-255, lower is more subtle
 # Image settings - LOCAL IMAGES ONLY (no timeouts, guaranteed halal)
 USE_IMAGES = True  # Enabled with local nature images
 IMAGE_HEIGHT_RATIO = 0.30  # Image takes 25% of top height
-IMAGE_OPACITY = 0.85  # Slightly transparent for subtlety
+IMAGE_OPACITY = 0.95  # Higher opacity to make images clearly visible
 
 # Local image paths - stored in repository (nature/Islamic patterns only)
 # ROOT FIX: No external downloads = no timeouts, no inappropriate content
