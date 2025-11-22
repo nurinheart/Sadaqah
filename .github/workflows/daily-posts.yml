@@ -67,11 +67,11 @@ jobs:
         path: logs/
         retention-days: 7
     
-    - name: Commit posted hadiths tracking
+    - name: Commit posted hadiths and image usage tracking
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git add posted_hadiths.json
-        git diff --staged --quiet || git commit -m "Update posted hadiths tracking [skip ci]"
+        git add posted_hadiths.json image_usage.json
+        git diff --staged --quiet || git commit -m "Update posted hadiths and image usage tracking [skip ci]"
         git push
       continue-on-error: true
