@@ -24,6 +24,7 @@ def main():
     
     # Check command line arguments
     auto_post = '--post' in sys.argv or '-p' in sys.argv
+    prefer_short = '--prefer-short' in sys.argv or '--short' in sys.argv
     theme = DEFAULT_THEME
     specific_index = None
     
@@ -33,6 +34,8 @@ def main():
         arg = sys.argv[i]
         if arg in ['--post', '-p']:
             pass
+        elif arg in ['--prefer-short', '--short']:
+            pass  # Already handled
         elif arg == '--index' and i + 1 < len(sys.argv):
             specific_index = int(sys.argv[i + 1])
             i += 1
@@ -42,6 +45,9 @@ def main():
         elif not arg.startswith('--'):
             theme = arg
         i += 1
+    
+    if prefer_short:
+        print(f"📊 Short mode: Preferring hadiths that fit in ≤10 slides")
     
     # Generate post
     generator = HadithPostGenerator(theme)
@@ -53,7 +59,10 @@ def main():
         print(f"📍 Using hadith index: {specific_index}")
     print()
     
-    filenames, index, hadith = generator.generate_post(specific_index=specific_index)
+    filenames, index, hadith = generator.generate_post(
+        specific_index=specific_index,
+        prefer_short=prefer_short
+    )
     
     if len(filenames) == 1:
         print(f"✅ Generated: {filenames[0]}")

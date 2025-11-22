@@ -95,9 +95,9 @@ ARABIC_FONTS = [
     "Arial Unicode MS.ttf",
 ]
 
-# Layout settings
-PADDING = 90  # More padding for cleaner look
-LINE_SPACING = 1.6  # More breathing room between lines
+# Layout settings - OPTIMIZED for Instagram 10-slide limit
+PADDING = 60  # Reduced padding to fit more text per slide (was 90)
+LINE_SPACING = 1.5  # Optimized line spacing (was 1.6)
 MAX_TEXT_WIDTH = IMAGE_WIDTH - (PADDING * 2)
 
 # Aesthetic enhancements

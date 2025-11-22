@@ -52,12 +52,17 @@ class HadithPostGenerator:
         with open(self.posted_file, 'w') as f:
             json.dump(self.posted_indices, f)
     
-    def get_next_hadith(self):
-        """Get next unposted Sahih hadith with rotation across books"""
+    def get_next_hadith(self, prefer_short=False):
+        """
+        Get next unposted Sahih hadith with rotation across books
+        
+        Args:
+            prefer_short: If True, prefer hadiths that will fit in ≤10 slides (Instagram limit)
+        """
         available = [i for i in range(len(self.hadiths)) if i not in self.posted_indices]
         
         if not available:
-            print("All hadiths have been posted! Resetting...")
+            print("✅ All hadiths have been posted! Resetting for new rotation...")
             self.posted_indices = []
             available = list(range(len(self.hadiths)))
         
@@ -67,6 +72,13 @@ class HadithPostGenerator:
             if idx < len(self.hadiths):
                 book = self.hadiths[idx]['book']
                 posted_books[book] = posted_books.get(book, 0) + 1
+        
+        # If prefer_short, filter to hadiths ≤800 chars (roughly 10 slides max)
+        if prefer_short:
+            short_available = [i for i in available if len(self.hadiths[i]['text']) <= 800]
+            if short_available:
+                available = short_available
+                print(f"📊 Filtering to {len(available)} short hadiths (≤10 slides)")
         
         # Try to pick from least-posted book for variety
         best_index = None
@@ -86,7 +98,7 @@ class HadithPostGenerator:
         if not validate_hadith_authenticity(hadith):
             print(f"⚠️  WARNING: Hadith {index} failed validation, skipping...")
             self.posted_indices.append(index)
-            return self.get_next_hadith()
+            return self.get_next_hadith(prefer_short=prefer_short)
         
         return index, hadith
     
@@ -119,18 +131,37 @@ class HadithPostGenerator:
         return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
     
     def get_font(self, font_type, size=None, bold=False):
-        """Get font with Product Sans priority"""
+        """Get font with Product Sans priority and proper Unicode support"""
         if size is None:
             size = FONTS[font_type]['size']
         
-        # Special handling for Arabic/symbol fonts
+        # Special handling for Arabic/symbol fonts ONLY for 'symbol' type
         if font_type == 'symbol':
-            for font_path in ARABIC_FONTS:
+            # Priority: fonts known to support Arabic Unicode block (U+0600-U+06FF and U+FE70-U+FEFF)
+            unicode_fonts = [
+                '/System/Library/Fonts/Supplemental/GeezaPro.ttc',  # Best for macOS - previous working font
+                '/System/Library/Fonts/Supplemental/Baghdad.ttf',
+                '/Library/Fonts/Arial Unicode.ttf',
+                '/System/Library/Fonts/Supplemental/Arial Unicode.ttf',
+                'fonts/NotoNaskhArabic-Regular.ttf',  # If we add Noto Arabic
+            ] + ARABIC_FONTS
+            
+            for font_path in unicode_fonts:
                 try:
-                    return ImageFont.truetype(font_path, size)
+                    font = ImageFont.truetype(font_path, size)
+                    # Test if font can render Arabic/Islamic symbols
+                    try:
+                        font.getbbox('ﷺ')  # Test with actual symbol
+                        print(f"✅ Using symbol font: {os.path.basename(font_path)}")
+                        return font
+                    except:
+                        continue
                 except:
                     continue
+            
+            print("⚠️  Warning: No Arabic Unicode font found, using fallback")
         
+        # For all other font types (heading, main_text, source), use Product Sans
         # Try Product Sans first for regular text
         product_sans_path = FONT_PATHS['product_sans_bold'] if bold else FONT_PATHS['product_sans_regular']
         try:
@@ -218,6 +249,39 @@ class HadithPostGenerator:
                 lines.append(' '.join(current_line))
         
         return lines
+    
+    def draw_text_with_arabic_symbols(self, draw, x, y, text, main_font, symbol_font, color):
+        """Draw text that may contain Arabic symbols (ﷺ) with proper font handling"""
+        # Check if text contains the symbol
+        if 'ﷺ' not in text:
+            # No symbol, draw normally
+            draw.text((x, y), text, fill=color, font=main_font)
+            return
+        
+        # Split text by symbol and draw each part with appropriate font
+        parts = text.split('ﷺ')
+        current_x = x
+        
+        for i, part in enumerate(parts):
+            # Draw text part with main font
+            if part:
+                draw.text((current_x, y), part, fill=color, font=main_font)
+                bbox = main_font.getbbox(part)
+                current_x += bbox[2] - bbox[0]
+            
+            # Draw symbol with symbol font (if not last part)
+            if i < len(parts) - 1:
+                # Make symbol slightly bigger
+                symbol_size = int(main_font.size * 0.9)
+                symbol_font_sized = self.get_font('symbol', size=symbol_size)
+                
+                # Adjust vertical position for better alignment
+                symbol_bbox = symbol_font_sized.getbbox('ﷺ')
+                text_bbox = main_font.getbbox('A')
+                y_offset = (text_bbox[3] - symbol_bbox[3]) // 2
+                
+                draw.text((current_x, y + y_offset), 'ﷺ', fill=color, font=symbol_font_sized)
+                current_x += symbol_bbox[2] - symbol_bbox[0] + 3
     
     def load_local_image(self, image_path):
         """Load image from local filesystem - ROOT FIX: no timeouts, guaranteed halal"""
@@ -378,9 +442,9 @@ class HadithPostGenerator:
         main_font = self.get_font('main_text')
         source_font = self.get_font('source', bold=True)
         
-        # Calculate starting position (all slides have image now)
+        # Calculate starting position (all slides have image now) - REDUCED gap
         if USE_IMAGES:
-            y_pos = int(IMAGE_HEIGHT * IMAGE_HEIGHT_RATIO) + PADDING + 40
+            y_pos = int(IMAGE_HEIGHT * IMAGE_HEIGHT_RATIO) + PADDING + 15  # Reduced from 40 to 15
         else:
             y_pos = PADDING + 100
         
@@ -402,7 +466,7 @@ class HadithPostGenerator:
                 self.theme['heading_color'],
                 self.theme['heading_color']
             )
-            y_pos += max(heading_font.getbbox("A")[3], symbol_font.getbbox(symbol)[3]) + 60
+            y_pos += max(heading_font.getbbox("A")[3], symbol_font.getbbox(symbol)[3]) + 35  # Reduced from 60 to 35
         else:
             # Continuation slides show "Continued..."
             continuation_text = "Continuation:"
@@ -411,7 +475,7 @@ class HadithPostGenerator:
             cont_x = (IMAGE_WIDTH - cont_width) // 2
             
             draw.text((cont_x, y_pos), continuation_text, fill=self.theme['heading_color'], font=heading_font)
-            y_pos += heading_font.getbbox("A")[3] + 60
+            y_pos += heading_font.getbbox("A")[3] + 35  # Reduced from 60 to 35
         
         # Draw hadith text chunk (add "..." at end if first slide and there are more slides)
         if slide_num == 1 and total_slides > 1:
@@ -425,41 +489,49 @@ class HadithPostGenerator:
         
         # Vertically center the text (all slides have image now)
         if USE_IMAGES:
-            available_height = IMAGE_HEIGHT - int(IMAGE_HEIGHT * IMAGE_HEIGHT_RATIO) - PADDING * 2 - 250
-            y_pos = int(IMAGE_HEIGHT * IMAGE_HEIGHT_RATIO) + PADDING + 140 + (available_height - total_text_height) // 2
+            available_height = IMAGE_HEIGHT - int(IMAGE_HEIGHT * IMAGE_HEIGHT_RATIO) - PADDING * 2 - 200  # Reduced from 250
+            y_pos = int(IMAGE_HEIGHT * IMAGE_HEIGHT_RATIO) + PADDING + 90 + (available_height - total_text_height) // 2  # Reduced from 140
         else:
             y_pos = (IMAGE_HEIGHT - total_text_height) // 2
         
         for line in wrapped_lines:
-            bbox = main_font.getbbox(line)
-            line_width = bbox[2] - bbox[0]
-            line_x = (IMAGE_WIDTH - line_width) // 2
+            # Check if line contains Arabic symbols
+            if 'ﷺ' in line:
+                # Use special handling for lines with symbols
+                bbox = main_font.getbbox(line.replace('ﷺ', ''))  # Approximate width
+                line_width = bbox[2] - bbox[0]
+                line_x = (IMAGE_WIDTH - line_width) // 2
+                
+                if TEXT_SHADOW:
+                    shadow_offset = 2
+                    self.draw_text_with_arabic_symbols(draw, line_x + shadow_offset, y_pos + shadow_offset, 
+                                                      line, main_font, symbol_font, (0, 0, 0, 30))
+                
+                self.draw_text_with_arabic_symbols(draw, line_x, y_pos, line, main_font, symbol_font, 
+                                                   self.theme['text_color'])
+            else:
+                # Normal text without symbols
+                bbox = main_font.getbbox(line)
+                line_width = bbox[2] - bbox[0]
+                line_x = (IMAGE_WIDTH - line_width) // 2
+                
+                if TEXT_SHADOW:
+                    shadow_offset = 2
+                    draw.text((line_x + shadow_offset, y_pos + shadow_offset), line,
+                             fill=(0, 0, 0, 30), font=main_font)
+                
+                draw.text((line_x, y_pos), line, fill=self.theme['text_color'], font=main_font)
             
-            if TEXT_SHADOW:
-                shadow_offset = 2
-                draw.text((line_x + shadow_offset, y_pos + shadow_offset), line,
-                         fill=(0, 0, 0, 30), font=main_font)
-            
-            draw.text((line_x, y_pos), line, fill=self.theme['text_color'], font=main_font)
             y_pos += line_height
         
-        # Draw reference and verification (on all slides)
+        # Draw reference (on all slides) - REMOVED verification line
         source_text = f"{hadith['primary_source']} (Sahih)"
         source_bbox = source_font.getbbox(source_text)
         source_width = source_bbox[2] - source_bbox[0]
         source_x = (IMAGE_WIDTH - source_width) // 2
-        source_y = IMAGE_HEIGHT - PADDING - 130
+        source_y = IMAGE_HEIGHT - PADDING - 90  # Moved up since we removed verification line
         
         draw.text((source_x, source_y), source_text, fill=self.theme['source_color'], font=source_font)
-        
-        verification_font = self.get_font('source', size=26)
-        verification_text = "Verified from 2+ authentic sources"
-        verif_bbox = verification_font.getbbox(verification_text)
-        verif_width = verif_bbox[2] - verif_bbox[0]
-        verif_x = (IMAGE_WIDTH - verif_width) // 2
-        verif_y = source_y + 45
-        
-        draw.text((verif_x, verif_y), verification_text, fill=self.theme['source_color'], font=verification_font)
         
         # Watermark (draw BEFORE swipe indicator)
         if WATERMARK:
@@ -569,9 +641,15 @@ class HadithPostGenerator:
         
         return indicator_img
     
-    def generate_post(self, output_path="output", specific_index=None):
-        """Generate a hadith post (single or multi-slide carousel)"""
+    def generate_post(self, output_path="output", specific_index=None, prefer_short=False):
+        """
+        Generate a hadith post (single or multi-slide carousel)
         
+        Args:
+            output_path: Directory to save generated images
+            specific_index: Use specific hadith index (overrides prefer_short)
+            prefer_short: Prefer hadiths that fit in ≤10 slides (Instagram limit)
+        """
         # Create output directory if it doesn't exist
         os.makedirs(output_path, exist_ok=True)
         
@@ -583,7 +661,7 @@ class HadithPostGenerator:
             if not validate_hadith_authenticity(hadith):
                 raise ValueError(f"Hadith at index {index} is not Sahih or not properly verified!")
         else:
-            index, hadith = self.get_next_hadith()
+            index, hadith = self.get_next_hadith(prefer_short=prefer_short)
         
         # Create background
         img = self.create_gradient_background()
@@ -618,6 +696,21 @@ class HadithPostGenerator:
         if needs_multiple_slides:
             # Split text into balanced chunks
             text_chunks = self.split_text_balanced(hadith['text'], main_font, max_text_height, MAX_TEXT_WIDTH - 60)
+            
+            # ⚠️ INSTAGRAM LIMIT: Max 10 slides per carousel
+            if len(text_chunks) > 10:
+                print(f"\n⚠️  WARNING: Hadith requires {len(text_chunks)} slides (Instagram limit: 10)")
+                print(f"📏 Text length: {len(hadith['text'])} characters")
+                print(f"💡 Options:")
+                print(f"   1. Skip this hadith and use '--prefer-short' flag for automatic selection")
+                print(f"   2. Post only first 10 slides (truncated)")
+                print(f"   3. Split into 2 separate posts")
+                print(f"\n⏭️  Skipping to next shorter hadith...\n")
+                
+                # Skip this hadith and get a shorter one
+                self.posted_indices.append(index)
+                return self.generate_post(output_path, specific_index=None)
+            
             print(f"📖 Long hadith detected! Creating {len(text_chunks)} slides...")
             
             # Select ONE image for ALL slides in the carousel

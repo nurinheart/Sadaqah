@@ -20,8 +20,12 @@ class HadithAPIClient:
     """
     
     def __init__(self):
-        # Free CDN-hosted hadith API (no authentication needed)
+        # Primary: Free CDN-hosted hadith API (no authentication needed)
         self.cdn_base_url = "https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1"
+        
+        # Fallback: HadithAPI.com with API key
+        self.hadithapi_base_url = "https://hadithapi.com/api"
+        self.hadithapi_key = "$2y$10$fgjZleaeHbYE73NiwTfizeoYBm0CAuRKwxJFMyQogPDkIjiOYm7V2"
         
         # Collection edition mappings (English versions)
         self.collection_editions = {
@@ -31,6 +35,16 @@ class HadithAPIClient:
             'abudawud': 'eng-abudawud',
             'nasai': 'eng-nasai',
             'ibnmajah': 'eng-ibnmajah'
+        }
+        
+        # HadithAPI.com book slugs
+        self.hadithapi_books = {
+            'bukhari': 'sahih-bukhari',
+            'muslim': 'sahih-muslim',
+            'tirmidhi': 'jami-at-tirmidhi',
+            'abudawud': 'sunan-abi-dawood',
+            'nasai': 'sunan-an-nasai',
+            'ibnmajah': 'sunan-ibn-e-majah'
         }
         
         # Full collection names
@@ -148,19 +162,87 @@ class HadithAPIClient:
         
         return None
     
+    def fetch_hadith_from_hadithapi(self, collection: str, hadith_number: int) -> Optional[Dict]:
+        """
+        Fetch hadith from HadithAPI.com as fallback.
+        Returns hadith with full authentic text.
+        """
+        book_slug = self.hadithapi_books.get(collection.lower())
+        if not book_slug:
+            print(f"❌ Unknown collection: {collection}")
+            return None
+        
+        url = f"{self.hadithapi_base_url}/hadiths/?apiKey={self.hadithapi_key}&book={book_slug}&hadithNumber={hadith_number}"
+        
+        for attempt in range(self.max_retries):
+            try:
+                response = requests.get(url, timeout=self.timeout)
+                if response.status_code == 200:
+                    data = response.json()
+                    
+                    # Extract hadith from HadithAPI response
+                    if data.get('hadiths') and data['hadiths'].get('data'):
+                        hadiths_list = data['hadiths']['data']
+                        if hadiths_list and len(hadiths_list) > 0:
+                            hadith_data = hadiths_list[0]
+                            
+                            text = hadith_data.get('hadithEnglish', '')
+                            if not text or len(text) < 50:
+                                print(f"⚠️  Hadith text too short ({len(text)} chars)")
+                                return None
+                            
+                            return {
+                                'text': text,
+                                'reference': f"{self.collection_names[collection]} {hadith_number}",
+                                'grade': hadith_data.get('grade', 'Unknown'),
+                                'chapter': hadith_data.get('chapterEnglish', ''),
+                                'chapter_number': hadith_data.get('chapterId', ''),
+                                'narrator': '',
+                                'source': 'hadithapi.com',
+                                'collection': collection,
+                                'hadith_number': hadith_number,
+                                'raw_data': hadith_data
+                            }
+                elif response.status_code == 404:
+                    print(f"❌ Hadith not found on HadithAPI")
+                    return None
+                else:
+                    print(f"❌ HadithAPI error {response.status_code}")
+                    
+            except requests.exceptions.Timeout:
+                print(f"⚠️  HadithAPI timeout on attempt {attempt + 1}/{self.max_retries}")
+            except requests.exceptions.RequestException as e:
+                print(f"⚠️  HadithAPI error on attempt {attempt + 1}: {str(e)[:100]}")
+            
+            if attempt < self.max_retries - 1:
+                wait_time = 2 ** attempt
+                time.sleep(wait_time)
+        
+        return None
+    
     def fetch_hadith(self, collection: str, hadith_number: int) -> Optional[Dict]:
         """
-        Fetch hadith from CDN with full authentic text.
+        Fetch hadith with automatic fallback:
+        1. Try CDN first (primary, free, no auth)
+        2. Fall back to HadithAPI.com if CDN fails
         NO summarization or modification allowed - raw text only.
         """
         print(f"📖 Fetching: {collection.title()} {hadith_number}")
         
+        # Try primary CDN source
         hadith = self.fetch_hadith_from_cdn(collection, hadith_number)
         if hadith:
             print(f"✅ Fetched from CDN ({len(hadith['text'])} chars)")
             return hadith
         
-        print(f"❌ Failed to fetch hadith")
+        # Fallback to HadithAPI.com
+        print(f"⚠️  CDN failed, trying HadithAPI.com fallback...")
+        hadith = self.fetch_hadith_from_hadithapi(collection, hadith_number)
+        if hadith:
+            print(f"✅ Fetched from HadithAPI.com ({len(hadith['text'])} chars)")
+            return hadith
+        
+        print(f"❌ Failed to fetch from all sources")
         return None
     
     def verify_hadith_sahih(self, hadith: Dict) -> bool:
