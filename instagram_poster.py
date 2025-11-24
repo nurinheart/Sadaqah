@@ -69,8 +69,7 @@ class InstagramPoster:
                 return
             except Exception as e:
                 print(f"⚠️  Session login failed: {e}")
-                print("   Please generate a new session.json and update the INSTAGRAM_SESSION_DATA secret.")
-                raise
+                print("   Falling back to username/password login...")
         
         if not self.username or not self.password:
             raise ValueError("❌ Instagram credentials not set! Please set INSTAGRAM_SESSION_DATA secret.")
