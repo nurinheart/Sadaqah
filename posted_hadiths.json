@@ -1,16 +1,17 @@
 {
   "posted_ids": [
+    "abudawud:4809",
+    "abudawud:4919",
+    "tirmidhi:1162",
+    "tirmidhi:2380",
+    "ibnmajah:3790",
     "ibnmajah:4211",
     "nasai:2569",
+    "bukhari:69",
+    "bukhari:13",
+    "bukhari:1",
     "muslim:251",
     "muslim:1599",
-    "abudawud:4809",
-    "bukhari:13",
-    "tirmidhi:2380",
-    "abudawud:4919",
-    "ibnmajah:3790",
-    "tirmidhi:1162",
-    "bukhari:1",
     "nasai:3104"
   ],
   "metadata": {
@@ -85,6 +86,12 @@
       "variant": null,
       "unique_id": "ibnmajah:4211",
       "reference": "Sunan Ibn Majah 4211"
+    },
+    "bukhari:69": {
+      "posted_date": "2025-11-24",
+      "variant": null,
+      "unique_id": "bukhari:69",
+      "reference": "Sahih al-Bukhari 69"
     }
   }
 }
