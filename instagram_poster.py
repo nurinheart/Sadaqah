@@ -7,6 +7,8 @@ Posts generated hadith images to Instagram automatically
 """
 
 import os
+import time
+import random
 from instagrapi import Client
 from instagrapi.exceptions import LoginRequired, TwoFactorRequired, ChallengeRequired
 from instagrapi.types import StoryLink
@@ -25,6 +27,11 @@ class InstagramPoster:
         self.session_file = os.getenv('SESSION_FILE', 'instagram_session.json')
         self.client = Client()
         
+        # Anti-automation delays (seconds)
+        self.delay_before_post = (3, 7)      # Random delay before posting (3-7 seconds)
+        self.delay_before_story = (2, 5)     # Random delay before story (2-5 seconds)
+        self.delay_after_upload = (1, 3)     # Random delay after upload (1-3 seconds)
+        
         # Load session if exists
         if os.path.exists(self.session_file):
             try:
@@ -36,6 +43,17 @@ class InstagramPoster:
                 self.login()
         else:
             self.login()
+    
+    def _human_delay(self, delay_range):
+        """
+        Add human-like random delay to avoid automation detection
+        
+        Args:
+            delay_range: Tuple of (min, max) seconds
+        """
+        delay = random.uniform(delay_range[0], delay_range[1])
+        print(f"   ⏱️  Waiting {delay:.1f}s (anti-automation)...")
+        time.sleep(delay)
     
     def login(self):
         """Login to Instagram"""
@@ -109,6 +127,9 @@ class InstagramPoster:
             full_caption += "\n\n" + " ".join(hashtags)
         
         try:
+            # Add human-like delay before posting
+            self._human_delay(self.delay_before_post)
+            
             # Single image or carousel?
             if len(image_paths) == 1:
                 print(f"📤 Uploading single image to Instagram...")
@@ -123,6 +144,9 @@ class InstagramPoster:
                 print(f"📤 Uploading carousel with {len(image_paths)} slides...")
                 media = self.post_carousel(image_paths, full_caption)
             
+            # Small delay after upload
+            self._human_delay(self.delay_after_upload)
+            
             print(f"✅ Posted successfully!")
             print(f"   Post ID: {media.pk}")
             print(f"   Post Code: {media.code}")
@@ -132,6 +156,7 @@ class InstagramPoster:
             # Auto-share to story with link
             if share_to_story:
                 print(f"\n📱 Sharing to story with link...")
+                self._human_delay(self.delay_before_story)
                 self.share_to_story(image_paths[0], post_url)
             
             return media
@@ -165,11 +190,17 @@ class InstagramPoster:
             
             print(f"📤 Uploading carousel with {len(jpg_paths)} slides...")
             
+            # Add slight delay before carousel upload (appears more human)
+            self._human_delay((2, 4))
+            
             # Upload as album/carousel
             media = self.client.album_upload(
                 paths=jpg_paths,
                 caption=caption
             )
+            
+            # Small delay after carousel upload
+            self._human_delay((1, 2))
             
             print(f"✅ Carousel posted successfully!")
             print(f"🔗 Media Code: {media.code}")

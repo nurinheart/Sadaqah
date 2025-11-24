@@ -1,1 +1,84 @@
-[0, 12, 27, 33, 36, 39, 1, 13, 28]
+{
+  "posted_ids": [
+    "bukhari:1",
+    "muslim:251",
+    "tirmidhi:2380",
+    "abudawud:4809",
+    "nasai:3104",
+    "ibnmajah:3790",
+    "bukhari:13",
+    "muslim:1599",
+    "tirmidhi:1162"
+  ],
+  "metadata": {
+    "bukhari:1": {
+      "posted_date": "2025-11-24",
+      "variant": null,
+      "unique_id": "bukhari:1",
+      "reference": "Sahih al-Bukhari 1"
+    },
+    "muslim:251": {
+      "posted_date": "2025-11-24",
+      "variant": null,
+      "unique_id": "muslim:251",
+      "reference": "Sahih Muslim 251"
+    },
+    "tirmidhi:2380": {
+      "posted_date": "2025-11-24",
+      "variant": null,
+      "unique_id": "tirmidhi:2380",
+      "reference": "Jami' at-Tirmidhi 2380"
+    },
+    "abudawud:4809": {
+      "posted_date": "2025-11-24",
+      "variant": null,
+      "unique_id": "abudawud:4809",
+      "reference": "Sunan Abi Dawud 4809"
+    },
+    "nasai:3104": {
+      "posted_date": "2025-11-24",
+      "variant": null,
+      "unique_id": "nasai:3104",
+      "reference": "Sunan an-Nasa'i 3104"
+    },
+    "ibnmajah:3790": {
+      "posted_date": "2025-11-24",
+      "variant": null,
+      "unique_id": "ibnmajah:3790",
+      "reference": "Sunan Ibn Majah 3790"
+    },
+    "bukhari:13": {
+      "posted_date": "2025-11-24",
+      "variant": null,
+      "unique_id": "bukhari:13",
+      "reference": "Sahih al-Bukhari 13"
+    },
+    "muslim:1599": {
+      "posted_date": "2025-11-24",
+      "variant": null,
+      "unique_id": "muslim:1599",
+      "reference": "Sahih Muslim 1599"
+    },
+    "tirmidhi:1162": {
+      "posted_date": "2025-11-24",
+      "variant": null,
+      "unique_id": "tirmidhi:1162",
+      "reference": "Jami' at-Tirmidhi 1162"
+    }
+  },
+  "migration_info": {
+    "migrated_at": "2025-11-24T12:10:35.191715",
+    "original_indices": [
+      0,
+      12,
+      27,
+      33,
+      36,
+      39,
+      1,
+      13,
+      28
+    ],
+    "note": "Migrated from index-based to unique ID tracking system"
+  }
+}

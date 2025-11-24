@@ -26,25 +26,12 @@ class HadithPostGenerator:
         self.load_image_usage()
         
     def load_posted_hadiths(self):
-        """Load list of already posted hadith unique IDs to avoid repeats"""
+        """Load list of already posted hadith indices to avoid repeats"""
         if os.path.exists(self.posted_file):
             with open(self.posted_file, 'r') as f:
-                data = json.load(f)
-                
-                # Handle old format (array of indices) - should not happen after migration
-                if isinstance(data, list):
-                    print("⚠️  WARNING: Old index-based format detected!")
-                    print("   Run: python3 migrate_posted_hadiths.py")
-                    self.posted_ids = set()
-                    self.posted_metadata = {}
-                    return
-                
-                # New format (dict with posted_ids and metadata)
-                self.posted_ids = set(data.get('posted_ids', []))
-                self.posted_metadata = data.get('metadata', {})
+                self.posted_indices = json.load(f)
         else:
-            self.posted_ids = set()
-            self.posted_metadata = {}
+            self.posted_indices = []
     
     def load_image_usage(self):
         """Load image usage tracking to prevent repetition"""
@@ -59,99 +46,61 @@ class HadithPostGenerator:
         with open(self.image_usage_file, 'w') as f:
             json.dump(self.image_usage, f)
     
-    def save_posted_hadith(self, hadith: dict):
-        """
-        Save hadith as posted using its unique base_id
-        
-        This marks the entire hadith (including all variants) as posted
-        Example: Posting Muslim:251b will mark 'muslim:251' as posted
-        
-        Args:
-            hadith: Hadith dict with base_id, unique_id, variant, reference fields
-        """
-        base_id = hadith['base_id']
-        
-        # Add to posted IDs set
-        self.posted_ids.add(base_id)
-        
-        # Update metadata
-        self.posted_metadata[base_id] = {
-            'posted_date': datetime.now().strftime('%Y-%m-%d'),
-            'variant': hadith.get('variant'),
-            'unique_id': hadith['unique_id'],
-            'reference': hadith['reference']
-        }
-        
-        # Save to file with new structure
+    def save_posted_hadith(self, index):
+        """Save the index of posted hadith"""
+        self.posted_indices.append(index)
         with open(self.posted_file, 'w') as f:
-            json.dump({
-                'posted_ids': list(self.posted_ids),
-                'metadata': self.posted_metadata
-            }, f, indent=2, ensure_ascii=False)
+            json.dump(self.posted_indices, f)
     
     def get_next_hadith(self, prefer_short=False):
         """
         Get next unposted Sahih hadith with rotation across books
         
-        Uses unique base_id to track posted hadiths, ensuring lifetime tracking
-        with no resets. Once a hadith is posted, it's never posted again.
-        
         Args:
             prefer_short: If True, prefer hadiths that will fit in ≤10 slides (Instagram limit)
-        
-        Returns:
-            Tuple of (hadith_dict, index) or (None, None) if all posted
         """
-        # Filter to unposted hadiths (check by base_id)
-        available = []
-        for i, hadith in enumerate(self.hadiths):
-            base_id = hadith['base_id']
-            if base_id not in self.posted_ids:
-                available.append((i, hadith))
+        available = [i for i in range(len(self.hadiths)) if i not in self.posted_indices]
         
         if not available:
-            print("✅ All hadiths have been posted!")
-            print("   To continue, add more hadiths to verified_hadiths.json")
-            print("   Run: python3 fetch_authentic_hadiths.py --refresh")
-            return None, None
+            print("✅ All hadiths have been posted! Resetting for new rotation...")
+            self.posted_indices = []
+            available = list(range(len(self.hadiths)))
         
-        # Get book distribution for rotation
+        # Get book distribution to ensure rotation
         posted_books = {}
-        for base_id in self.posted_ids:
-            # Extract collection from base_id (e.g., 'bukhari:1' -> 'bukhari')
-            collection = base_id.split(':')[0]
-            posted_books[collection] = posted_books.get(collection, 0) + 1
+        for idx in self.posted_indices:
+            if idx < len(self.hadiths):
+                book = self.hadiths[idx]['book']
+                posted_books[book] = posted_books.get(book, 0) + 1
         
         # If prefer_short, filter to hadiths ≤800 chars (roughly 10 slides max)
         if prefer_short:
-            short_available = [(i, h) for i, h in available if len(h['text']) <= 800]
+            short_available = [i for i in available if len(self.hadiths[i]['text']) <= 800]
             if short_available:
                 available = short_available
                 print(f"📊 Filtering to {len(available)} short hadiths (≤10 slides)")
         
-        # Pick from least-posted book for variety
-        best_choice = None
+        # Try to pick from least-posted book for variety
+        best_index = None
         min_count = float('inf')
         
-        for idx, hadith in available:
-            collection = hadith['collection']
-            count = posted_books.get(collection, 0)
+        for idx in available:
+            book = self.hadiths[idx]['book']
+            count = posted_books.get(book, 0)
             if count < min_count:
                 min_count = count
-                best_choice = (idx, hadith)
+                best_index = idx
         
-        if best_choice is None:
-            best_choice = available[0]
-        
-        index, hadith = best_choice
+        index = best_index if best_index is not None else available[0]
+        hadith = self.hadiths[index]
         
         # Double-check authenticity before posting
         if not validate_hadith_authenticity(hadith):
-            print(f"⚠️  WARNING: Hadith {hadith['unique_id']} failed validation, skipping...")
-            self.save_posted_hadith(hadith)
+            print(f"⚠️  WARNING: Hadith {index} failed validation, skipping...")
+            self.posted_indices.append(index)
             return self.get_next_hadith(prefer_short=prefer_short)
         
-        return hadith, index
+        return index, hadith
     
     def create_gradient_background(self):
         """Create a smooth gradient background"""
@@ -924,9 +873,7 @@ class HadithPostGenerator:
             if not validate_hadith_authenticity(hadith):
                 raise ValueError(f"Hadith at index {index} is not Sahih or not properly verified!")
         else:
-            hadith, index = self.get_next_hadith(prefer_short=prefer_short)
-            if hadith is None:
-                return None  # All hadiths posted
+            index, hadith = self.get_next_hadith(prefer_short=prefer_short)
         
         # Create background
         img = self.create_gradient_background()
@@ -1017,7 +964,7 @@ class HadithPostGenerator:
             
             # Mark as posted
             if specific_index is None:
-                self.save_posted_hadith(hadith)
+                self.save_posted_hadith(index)
             
             print(f"✅ Generated {len(slide_files)} slides for hadith {index + 1}")
             return slide_files, index, hadith
@@ -1148,7 +1095,7 @@ class HadithPostGenerator:
         
             # Mark as posted (if not generating sample)
             if specific_index is None:
-                self.save_posted_hadith(hadith)
+                self.save_posted_hadith(index)
             
             print(f"✅ Generated: {filename}")
             print(f"📖 Hadith {index + 1}/{len(self.hadiths)}")
