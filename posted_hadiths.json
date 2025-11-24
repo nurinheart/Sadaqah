@@ -1,16 +1,17 @@
 {
   "posted_ids": [
-    "bukhari:13",
+    "ibnmajah:4211",
+    "nasai:2569",
     "muslim:251",
     "muslim:1599",
-    "nasai:3104",
     "abudawud:4809",
+    "bukhari:13",
     "tirmidhi:2380",
+    "abudawud:4919",
+    "ibnmajah:3790",
     "tirmidhi:1162",
     "bukhari:1",
-    "nasai:2569",
-    "ibnmajah:3790",
-    "abudawud:4919"
+    "nasai:3104"
   ],
   "metadata": {
     "bukhari:1": {
@@ -78,6 +79,12 @@
       "variant": null,
       "unique_id": "nasai:2569",
       "reference": "Sunan an-Nasa'i 2569"
+    },
+    "ibnmajah:4211": {
+      "posted_date": "2025-11-24",
+      "variant": null,
+      "unique_id": "ibnmajah:4211",
+      "reference": "Sunan Ibn Majah 4211"
     }
   }
 }
