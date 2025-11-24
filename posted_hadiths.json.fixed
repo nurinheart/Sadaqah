@@ -1,0 +1,76 @@
+{
+  "posted_ids": [
+    "muslim:251",
+    "nasai:3104",
+    "abudawud:4809",
+    "tirmidhi:2380",
+    "ibnmajah:3790",
+    "muslim:1599",
+    "bukhari:13",
+    "tirmidhi:1162",
+    "abudawud:4919",
+    "bukhari:1"
+  ],
+  "metadata": {
+    "bukhari:1": {
+      "posted_date": "2025-11-24",
+      "variant": null,
+      "unique_id": "bukhari:1",
+      "reference": "Sahih al-Bukhari 1"
+    },
+    "muslim:251": {
+      "posted_date": "2025-11-24",
+      "variant": null,
+      "unique_id": "muslim:251",
+      "reference": "Sahih Muslim 251"
+    },
+    "tirmidhi:2380": {
+      "posted_date": "2025-11-24",
+      "variant": null,
+      "unique_id": "tirmidhi:2380",
+      "reference": "Jami' at-Tirmidhi 2380"
+    },
+    "abudawud:4809": {
+      "posted_date": "2025-11-24",
+      "variant": null,
+      "unique_id": "abudawud:4809",
+      "reference": "Sunan Abi Dawud 4809"
+    },
+    "nasai:3104": {
+      "posted_date": "2025-11-24",
+      "variant": null,
+      "unique_id": "nasai:3104",
+      "reference": "Sunan an-Nasa'i 3104"
+    },
+    "ibnmajah:3790": {
+      "posted_date": "2025-11-24",
+      "variant": null,
+      "unique_id": "ibnmajah:3790",
+      "reference": "Sunan Ibn Majah 3790"
+    },
+    "bukhari:13": {
+      "posted_date": "2025-11-24",
+      "variant": null,
+      "unique_id": "bukhari:13",
+      "reference": "Sahih al-Bukhari 13"
+    },
+    "muslim:1599": {
+      "posted_date": "2025-11-24",
+      "variant": null,
+      "unique_id": "muslim:1599",
+      "reference": "Sahih Muslim 1599"
+    },
+    "tirmidhi:1162": {
+      "posted_date": "2025-11-24",
+      "variant": null,
+      "unique_id": "tirmidhi:1162",
+      "reference": "Jami' at-Tirmidhi 1162"
+    },
+    "abudawud:4919": {
+      "posted_date": "2025-11-24",
+      "variant": null,
+      "unique_id": "abudawud:4919",
+      "reference": "Sunan Abi Dawud 4919"
+    }
+  }
+}
