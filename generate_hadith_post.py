@@ -190,6 +190,7 @@ class HadithPostGenerator:
             size = FONTS[font_type]['size']
         
         # Special handling for Arabic/symbol fonts ONLY for 'symbol' type
+        # Special handling for Arabic/symbol fonts ONLY for 'symbol' type
         if font_type == 'symbol':
             # GeezaPro is the best font for ﷺ symbol on macOS
             # Priority order based on availability and rendering quality
@@ -907,7 +908,15 @@ class HadithPostGenerator:
     def generate_post(self, output_path="output", specific_index=None, prefer_short=False):
         """
         Generate a hadith post (single or multi-slide carousel)
+    def generate_post(self, output_path="output", specific_index=None, prefer_short=False):
+        """
+        Generate a hadith post (single or multi-slide carousel)
         
+        Args:
+            output_path: Directory to save generated images
+            specific_index: Use specific hadith index (overrides prefer_short)
+            prefer_short: Prefer hadiths that fit in ≤10 slides (Instagram limit)
+        """
         Args:
             output_path: Directory to save generated images
             specific_index: Use specific hadith index (overrides prefer_short)
