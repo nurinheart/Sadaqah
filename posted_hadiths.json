@@ -1,15 +1,15 @@
 {
   "posted_ids": [
-    "tirmidhi:1162",
     "bukhari:13",
-    "muslim:1599",
-    "tirmidhi:2380",
-    "abudawud:4919",
-    "muslim:251",
-    "abudawud:4809",
     "nasai:3104",
+    "bukhari:1",
+    "tirmidhi:1162",
+    "abudawud:4919",
+    "abudawud:4809",
     "ibnmajah:3790",
-    "bukhari:1"
+    "muslim:1599",
+    "muslim:251",
+    "tirmidhi:2380"
   ],
   "metadata": {
     "bukhari:1": {
@@ -65,13 +65,6 @@
       "variant": null,
       "unique_id": "tirmidhi:1162",
       "reference": "Jami' at-Tirmidhi 1162"
-    },
-    "abudawud:4919": {
-      "posted_date": "2025-11-24",
-      "variant": null,
-      "unique_id": "abudawud:4919",
-      "reference": "Sunan Abi Dawud 4919"
-    }
     },
     "abudawud:4919": {
       "posted_date": "2025-11-24",

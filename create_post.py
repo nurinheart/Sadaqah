@@ -86,34 +86,44 @@ def main():
     if auto_post:
         try:
             from instagram_poster import InstagramPoster, get_default_caption, get_default_hashtags
-            
+
             print("📱 AUTO-POSTING TO INSTAGRAM...")
             print()
-            
+
+            # Create backup before posting
+            backup_file = generator.create_backup_before_posting(hadith)
+
             poster = InstagramPoster()
             caption = get_default_caption(
-                hadith['text'], 
+                hadith['text'],
                 hadith['primary_source'],
                 hadith.get('category')
             )
             hashtags = get_default_hashtags()
-            
+
             # Post as single image or carousel, with auto-story sharing
-            poster.post_image(filenames, caption, hashtags, share_to_story=True)
-            
-            print()
-            print("🎉 POSTED TO INSTAGRAM!")
-            if len(filenames) > 1:
-                print(f"📱 Posted as CAROUSEL with {len(filenames)} slides")
-            print("📱 Auto-shared to STORY with link to post!")
-            print()
-            print("⚠️  IMPORTANT: Add Quran audio manually:")
-            print("   1. Open Instagram app")
-            print("   2. Find your post")
-            print("   3. Edit → Add Music → Search 'Quran'")
-            print("   4. Select Surah Ar-Rahman or another")
-            print("   5. Save!")
-            
+            try:
+                poster.post_image(filenames, caption, hashtags, share_to_story=True)
+
+                # SUCCESS: Commit the database changes
+                generator.commit_posted_hadith()
+
+                print()
+                print("🎉 POSTED TO INSTAGRAM SUCCESSFULLY!")
+                if len(filenames) > 1:
+                    print(f"📱 Posted as CAROUSEL with {len(filenames)} slides")
+                print("📱 Auto-shared to STORY with link to post!")
+                print(f"💾 Database updated - hadith marked as posted")
+                print()
+
+            except Exception as post_error:
+                # FAILURE: Rollback the staged changes
+                generator.rollback_posted_hadith(hadith)
+                print(f"❌ Posting failed: {post_error}")
+                print(f"🔄 Database changes rolled back - hadith not marked as posted")
+                print(f"📦 Backup preserved: {backup_file}")
+                raise post_error
+
         except ImportError:
             print("⚠️  Instagram auto-posting not set up yet.")
             print("   Run: pip install instagrapi")
@@ -123,6 +133,7 @@ def main():
             import traceback
             traceback.print_exc()
             print("   You can still post manually!")
+            print("   ⚠️  Database was NOT updated - hadith not marked as posted")
     else:
         print("📱 MANUAL POSTING:")
         if len(filenames) > 1:
@@ -139,6 +150,17 @@ def main():
         print()
         print("💡 TIP: Use --post flag for auto-posting")
         print("   python3 create_post.py --post")
+        print()
+
+        # For manual posting, ask user to confirm successful posting before committing
+        if specific_index is None:  # Only for non-sample posts
+            print("🔄 DATABASE STATUS:")
+            print("   📝 Hadith staged for posting (not yet committed to database)")
+            print("   ✅ After successful Instagram posting, run:")
+            print(f"   python3 -c \"from generate_hadith_post import HadithPostGenerator; g = HadithPostGenerator(); g.commit_posted_hadith()\"")
+            print("   ❌ If posting failed, run:")
+            print(f"   python3 -c \"from generate_hadith_post import HadithPostGenerator; g = HadithPostGenerator(); g.rollback_posted_hadith({{'base_id': '{hadith['base_id']}'}})\"")
+            print()
     
     print()
     print("💡 SUGGESTED HASHTAGS:")

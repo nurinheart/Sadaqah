@@ -28,21 +28,89 @@ class HadithPostGenerator:
     def load_posted_hadiths(self):
         """Load list of already posted hadith unique IDs to avoid repeats"""
         if os.path.exists(self.posted_file):
-            with open(self.posted_file, 'r') as f:
-                data = json.load(f)
+            try:
+                with open(self.posted_file, 'r') as f:
+                    data = json.load(f)
+                    
+                    # Handle old format (array of indices) - should not happen after migration
+                    if isinstance(data, list):
+                        print("⚠️  WARNING: Old index-based format detected!")
+                        print("   Run: python3 migrate_posted_hadiths.py")
+                        self.posted_ids = set()
+                        self.posted_metadata = {}
+                        return
+                    
+                    # Load new format
+                    self.posted_ids = set(data.get('posted_ids', []))
+                    self.posted_metadata = data.get('metadata', {})
+                    
+            except json.JSONDecodeError as e:
+                print(f"⚠️  WARNING: Corrupted posted_hadiths.json file: {e}")
+                print("   Attempting to recover data...")
                 
-                # Handle old format (array of indices) - should not happen after migration
-                if isinstance(data, list):
-                    print("⚠️  WARNING: Old index-based format detected!")
-                    print("   Run: python3 migrate_posted_hadiths.py")
+                # Try to recover data from corrupted file
+                recovered_data = None
+                corrupted_content = ""
+                
+                try:
+                    with open(self.posted_file, 'r') as f:
+                        corrupted_content = f.read()
+                    
+                    # Try to find valid JSON by removing trailing garbage
+                    for i in range(len(corrupted_content) - 1, -1, -1):
+                        try:
+                            potential_json = corrupted_content[:i+1]
+                            recovered_data = json.loads(potential_json)
+                            print(f"   ✅ Recovered data from corrupted file (removed {len(corrupted_content) - i - 1} chars)")
+                            break
+                        except json.JSONDecodeError:
+                            continue
+                except:
+                    pass
+                
+                # If recovery failed, try backup files
+                if recovered_data is None:
+                    backup_files = [
+                        f"{self.posted_file}.full_backup",
+                        f"{self.posted_file}.backup",
+                        f"{self.posted_file}.corrupted"
+                    ]
+                    
+                    for backup_file in backup_files:
+                        if os.path.exists(backup_file):
+                            try:
+                                with open(backup_file, 'r') as f:
+                                    recovered_data = json.load(f)
+                                print(f"   ✅ Recovered data from backup: {backup_file}")
+                                break
+                            except:
+                                continue
+                
+                # Backup the corrupted file
+                backup_file = f"{self.posted_file}.corrupted"
+                if os.path.exists(self.posted_file):
+                    os.rename(self.posted_file, backup_file)
+                    print(f"   📦 Backed up corrupted file to: {backup_file}")
+                
+                # Use recovered data or create empty
+                if recovered_data:
+                    self.posted_ids = set(recovered_data.get('posted_ids', []))
+                    self.posted_metadata = recovered_data.get('metadata', {})
+                    print(f"   🔄 Recovered {len(self.posted_ids)} posted hadiths")
+                else:
                     self.posted_ids = set()
                     self.posted_metadata = {}
-                    return
+                    print("   ⚠️  Could not recover data, starting with empty tracking")
                 
-                # New format (dict with posted_ids and metadata)
-                self.posted_ids = set(data.get('posted_ids', []))
-                self.posted_metadata = data.get('metadata', {})
+                # Create clean file with recovered data
+                with open(self.posted_file, 'w') as f:
+                    json.dump({
+                        'posted_ids': list(self.posted_ids),
+                        'metadata': self.posted_metadata
+                    }, f, indent=2)
+                return
         else:
+            # File doesn't exist, initialize empty
             self.posted_ids = set()
             self.posted_metadata = {}
     
@@ -61,19 +129,19 @@ class HadithPostGenerator:
     
     def save_posted_hadith(self, hadith: dict):
         """
-        Save hadith as posted using its unique base_id
-        
+        Stage hadith as posted using its unique base_id (doesn't save to disk yet)
+
         This marks the entire hadith (including all variants) as posted
         Example: Posting Muslim:251b will mark 'muslim:251' as posted
-        
+
         Args:
             hadith: Hadith dict with base_id, unique_id, variant, reference fields
         """
         base_id = hadith['base_id']
-        
+
         # Add to posted IDs set
         self.posted_ids.add(base_id)
-        
+
         # Update metadata
         self.posted_metadata[base_id] = {
             'posted_date': datetime.now().strftime('%Y-%m-%d'),
@@ -81,13 +149,60 @@ class HadithPostGenerator:
             'unique_id': hadith['unique_id'],
             'reference': hadith['reference']
         }
-        
-        # Save to file with new structure
+
+        # NOTE: No longer saves to file immediately - call commit_posted_hadith() after successful posting
+
+    def create_backup_before_posting(self, hadith):
+        """
+        Create a timestamped backup before posting to prevent data loss
+
+        Args:
+            hadith: Hadith dict being posted
+        """
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        base_id = hadith['base_id'].replace(':', '_')  # Replace : with _ for filename
+        backup_filename = f"{self.posted_file}.backup_{base_id}_{timestamp}"
+
+        # Save current state as backup
+        with open(backup_filename, 'w') as f:
+            json.dump({
+                'posted_ids': list(self.posted_ids),
+                'metadata': self.posted_metadata
+            }, f, indent=2, ensure_ascii=False)
+
+        print(f"📦 Created backup: {backup_filename}")
+        return backup_filename
+
+    def commit_posted_hadith(self):
+        """
+        Commit staged hadith changes to disk after successful posting
+        """
         with open(self.posted_file, 'w') as f:
             json.dump({
                 'posted_ids': list(self.posted_ids),
                 'metadata': self.posted_metadata
             }, f, indent=2, ensure_ascii=False)
+
+        print(f"💾 Committed database changes to {self.posted_file}")
+
+    def rollback_posted_hadith(self, hadith):
+        """
+        Rollback staged changes if posting failed
+
+        Args:
+            hadith: Hadith dict to remove from staged changes
+        """
+        base_id = hadith['base_id']
+
+        # Remove from posted IDs set
+        if base_id in self.posted_ids:
+            self.posted_ids.remove(base_id)
+
+        # Remove from metadata
+        if base_id in self.posted_metadata:
+            del self.posted_metadata[base_id]
+
+        print(f"🔄 Rolled back changes for {base_id}")
     
     def get_next_hadith(self, prefer_short=False):
         """
@@ -1020,7 +1135,7 @@ class HadithPostGenerator:
                 )
                 slide_files.append(slide_img)
             
-            # Mark as posted
+            # Mark as posted (staged, not committed yet)
             if specific_index is None:
                 self.save_posted_hadith(hadith)
             
@@ -1151,7 +1266,7 @@ class HadithPostGenerator:
             filename = f"{output_path}/hadith_{index}_{timestamp}.png"
             img.save(filename, quality=95)
         
-            # Mark as posted (if not generating sample)
+            # Mark as posted (staged, not committed yet)
             if specific_index is None:
                 self.save_posted_hadith(hadith)
             
