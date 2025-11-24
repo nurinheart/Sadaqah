@@ -10,7 +10,7 @@ import os
 import time
 import random
 from instagrapi import Client
-from instagrapi.exceptions import LoginRequired, TwoFactorRequired, ChallengeRequired
+from instagrapi.exceptions import LoginRequired, TwoFactorRequired, ChallengeRequired, PhotoNotUpload
 from instagrapi.types import StoryLink
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
@@ -210,6 +210,31 @@ class InstagramPoster:
                     jpg_path.unlink()
             
             return media
+            
+        except PhotoNotUpload as e:
+            if 'login_required' in str(e):
+                print("⚠️  Login expired during upload, attempting re-login...")
+                try:
+                    self.login()
+                    # Retry upload after re-login
+                    media = self.client.album_upload(
+                        paths=jpg_paths,
+                        caption=caption
+                    )
+                    print(f"✅ Carousel posted successfully after re-login!")
+                    print(f"🔗 Media Code: {media.code}")
+                    
+                    # Cleanup temporary JPG files
+                    for orig_path, jpg_path in zip(paths, jpg_paths):
+                        if orig_path != jpg_path and jpg_path.exists():
+                            jpg_path.unlink()
+                    
+                    return media
+                except Exception as retry_e:
+                    print(f"❌ Re-login and retry failed: {retry_e}")
+                    raise retry_e
+            else:
+                raise e
             
         except Exception as e:
             print(f"❌ Carousel post failed: {e}")
