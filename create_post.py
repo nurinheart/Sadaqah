@@ -47,7 +47,7 @@ def main():
         i += 1
     
     if prefer_short:
-        print(f"📊 Short mode: Preferring hadiths that fit in ≤10 slides")
+        print(f"📊 Short mode: Preferring hadiths that fit in <=10 slides")
     
     # Generate post
     generator = HadithPostGenerator(theme)

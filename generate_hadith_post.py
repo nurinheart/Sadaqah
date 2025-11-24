@@ -97,7 +97,7 @@ class HadithPostGenerator:
         with no resets. Once a hadith is posted, it's never posted again.
         
         Args:
-            prefer_short: If True, prefer hadiths that will fit in ≤10 slides (Instagram limit)
+            prefer_short: If True, prefer hadiths that will fit in <=10 slides (Instagram limit)
         
         Returns:
             Tuple of (hadith_dict, index) or (None, None) if all posted
@@ -122,12 +122,12 @@ class HadithPostGenerator:
             collection = base_id.split(':')[0]
             posted_books[collection] = posted_books.get(collection, 0) + 1
         
-        # If prefer_short, filter to hadiths ≤800 chars (roughly 10 slides max)
+        # If prefer_short, filter to hadiths <=800 chars (roughly 10 slides max)
         if prefer_short:
             short_available = [(i, h) for i, h in available if len(h['text']) <= 800]
             if short_available:
                 available = short_available
-                print(f"📊 Filtering to {len(available)} short hadiths (≤10 slides)")
+                print(f"📊 Filtering to {len(available)} short hadiths (<=10 slides)")
         
         # Pick from least-posted book for variety
         best_choice = None
@@ -912,19 +912,11 @@ class HadithPostGenerator:
     def generate_post(self, output_path="output", specific_index=None, prefer_short=False):
         """
         Generate a hadith post (single or multi-slide carousel)
-    def generate_post(self, output_path="output", specific_index=None, prefer_short=False):
-        """
-        Generate a hadith post (single or multi-slide carousel)
         
         Args:
             output_path: Directory to save generated images
             specific_index: Use specific hadith index (overrides prefer_short)
-            prefer_short: Prefer hadiths that fit in ≤10 slides (Instagram limit)
-        """
-        Args:
-            output_path: Directory to save generated images
-            specific_index: Use specific hadith index (overrides prefer_short)
-            prefer_short: Prefer hadiths that fit in ≤10 slides (Instagram limit)
+            prefer_short: Prefer hadiths that fit in <=10 slides (Instagram limit)
         """
         # Create output directory if it doesn't exist
         os.makedirs(output_path, exist_ok=True)
