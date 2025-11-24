@@ -762,10 +762,13 @@ class HadithPostGenerator:
             
             y_pos += line_height
         
+        # Draw reference (on all slides) - REMOVED verification line
         # Draw reference (on all slides)
         source_text = f"{hadith['primary_source']} (Sahih)"
         source_bbox = source_font.getbbox(source_text)
         source_width = source_bbox[2] - source_bbox[0]
+        source_x = (IMAGE_WIDTH - source_width) // 2
+        source_y = IMAGE_HEIGHT - PADDING - 90  # Moved up since we removed verification line
         
         # Calculate watermark position first to avoid overlap
         watermark_y = None
@@ -776,6 +779,7 @@ class HadithPostGenerator:
             watermark_height = watermark_bbox[3] - watermark_bbox[1]
             watermark_y = IMAGE_HEIGHT - PADDING_BOTTOM - watermark_height
         
+        draw.text((source_x, source_y), source_text, fill=self.theme['source_color'], font=source_font)
         # Position reference ABOVE watermark with proper spacing
         if WATERMARK:
             source_y = watermark_y - source_bbox[3] - 20  # 20px gap between reference and watermark
