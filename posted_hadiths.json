@@ -1,26 +1,27 @@
 {
   "posted_ids": [
-    "muslim:1844",
-    "ibnmajah:4211",
-    "muslim:251",
-    "ibnmajah:3790",
-    "nasai:3104",
-    "tirmidhi:2380",
-    "abudawud:4031",
-    "nasai:2569",
-    "bukhari:69",
-    "tirmidhi:1162",
-    "bukhari:13",
-    "abudawud:4809",
-    "muslim:1599",
-    "tirmidhi:2485",
-    "tirmidhi:2376",
-    "abudawud:4919",
-    "nasai:5038",
-    "bukhari:1519",
-    "ibnmajah:4217",
     "muslim:1718",
-    "bukhari:1"
+    "tirmidhi:2376",
+    "ibnmajah:4211",
+    "abudawud:4919",
+    "tirmidhi:2380",
+    "bukhari:1519",
+    "ibnmajah:3790",
+    "bukhari:13",
+    "nasai:2569",
+    "tirmidhi:2485",
+    "abudawud:4031",
+    "abudawud:4809",
+    "muslim:251",
+    "nasai:5038",
+    "tirmidhi:1162",
+    "muslim:1844",
+    "ibnmajah:4217",
+    "bukhari:69",
+    "ibnmajah:3983",
+    "muslim:1599",
+    "bukhari:1",
+    "nasai:3104"
   ],
   "metadata": {
     "bukhari:1": {
@@ -148,6 +149,12 @@
       "variant": null,
       "unique_id": "tirmidhi:2485",
       "reference": "Jami' at-Tirmidhi 2485"
+    },
+    "ibnmajah:3983": {
+      "posted_date": "2025-11-26",
+      "variant": null,
+      "unique_id": "ibnmajah:3983",
+      "reference": "Sunan Ibn Majah 3983"
     }
   }
 }
