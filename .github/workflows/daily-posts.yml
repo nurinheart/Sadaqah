@@ -39,12 +39,12 @@ jobs:
         INSTAGRAM_PASSWORD: ${{ secrets.INSTAGRAM_PASSWORD }}
         INSTAGRAM_SESSION_DATA: ${{ secrets.INSTAGRAM_SESSION_DATA }}
       run: |
-        python create_post.py
+        python create_post.py --post --prefer-short
     
-    - name: Commit updated session and posted hadiths
+    - name: Commit updated data
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git add posted_hadiths.json
-        git diff --quiet && git diff --staged --quiet || git commit -m "Update posted hadiths and session data [skip ci]"
+        git add posted_hadiths.json image_usage.json
+        git diff --quiet && git diff --staged --quiet || git commit -m "Update posted hadiths and image usage [skip ci]"
         git push
