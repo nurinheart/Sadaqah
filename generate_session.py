@@ -12,30 +12,10 @@ def handle_challenge(cl: Client, username: str):
     """
     Handles the Instagram security challenge.
     """
-    challenge_path = cl.challenge_get_path(username)
-    if not challenge_path:
-        print("Could not find a challenge path. Please try again.")
-        return False
-
-    print(f"Instagram has sent a security challenge. Please choose a verification method:")
-    print(f"1: SMS")
-    print(f"2: Email")
-    
-    choice = input("Enter your choice (1 or 2): ")
-    if choice not in ["1", "2"]:
-        print("Invalid choice.")
-        return False
-
-    try:
-        cl.challenge_select_path(challenge_path, int(choice))
-        code = input("Enter the 6-digit code you received: ")
-        cl.challenge_send_code(challenge_path, code)
-        cl.challenge_relogin(challenge_path)
-        print("✅ Challenge passed successfully.")
-        return True
-    except Exception as e:
-        print(f"❌ An error occurred during the challenge: {e}")
-        return False
+    print(f"\n⚠️  Instagram security challenge required.")
+    print(f"Please log in manually through the Instagram app on your phone/browser first.")
+    print(f"Then run this script again.")
+    return False
 
 def generate_session():
     """
@@ -54,9 +34,11 @@ def generate_session():
         print("\nTwo-Factor Authentication is required.")
         verification_code = input("Enter the 2FA code sent to your device: ")
         try:
-            cl.two_factor_login(verification_code)
+            cl.login(username, password, verification_code=verification_code)
         except Exception as e:
             print(f"❌ 2FA login failed: {e}")
+            import traceback
+            traceback.print_exc()
             return
 
     except ChallengeRequired:
