@@ -22,9 +22,27 @@ def generate_session():
     Logs into Instagram and saves the session data to a JSON file.
     Handles 2FA and security challenges.
     """
+    import time
+    
     cl = Client()
+    
+    # Set delay to avoid rate limiting
+    cl.delay_range = [2, 5]
+    
+    # Load existing session if available to reuse encryption keys
+    if os.path.exists(SESSION_FILE):
+        try:
+            print("Loading existing session data to preserve encryption keys...")
+            cl.load_settings(SESSION_FILE)
+        except:
+            pass
+    
     username = input("Enter your Instagram username: ")
     password = getpass("Enter your Instagram password: ")
+    
+    # Add delay before login attempt
+    print("Waiting 3 seconds before login attempt...")
+    time.sleep(3)
 
     try:
         print("\nAttempting to log in...")
@@ -51,6 +69,8 @@ def generate_session():
 
     except Exception as e:
         print(f"\n❌ An unexpected error occurred: {e}")
+        import traceback
+        traceback.print_exc()
         return
 
     # Save the session
