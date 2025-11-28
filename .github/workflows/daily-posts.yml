@@ -2,14 +2,11 @@ name: Daily Hadith Posts
 
 on:
   schedule:
-    # Post 5 times daily before/around prayer times (UTC times)
-    # Adjust these based on your target audience timezone
-    - cron: '0 4 * * *'   # Fajr time - 4:00 AM UTC (best engagement)
-    - cron: '0 11 * * *'  # Dhuhr time - 11:00 AM UTC (midday)
-    - cron: '0 14 * * *'  # Asr time - 2:00 PM UTC (afternoon)
-    - cron: '0 17 * * *'  # Maghrib time - 5:00 PM UTC (evening peak)
-    - cron: '0 20 * * *'  # Isha time - 8:00 PM UTC (night peak)
-  
+    # 2 posts per day - Auto-generated from config.py
+    # To change: Edit POSTING_SCHEDULE in config.py, then run: python3 update_workflow_schedule.py
+    - cron: '0 6 * * *'  # 06:00 UTC
+    - cron: '0 18 * * *'  # 18:00 UTC
+
   # Allow manual triggering for testing
   workflow_dispatch:
 
@@ -21,62 +18,33 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v3
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.PAT }}
     
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
-        cache: 'pip'
     
-    - name: Install system dependencies (fonts)
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y fonts-noto fonts-liberation fonts-dejavu fontconfig
-        fc-cache -f -v
-    
-    - name: Install Python dependencies
+    - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     
-    - name: Create .env file
-      run: |
-        echo "INSTAGRAM_USERNAME=${{ secrets.INSTAGRAM_USERNAME }}" > .env
-        echo "INSTAGRAM_PASSWORD=${{ secrets.INSTAGRAM_PASSWORD }}" >> .env
-    
-    - name: Create necessary directories
-      run: |
-        mkdir -p output logs fonts
-    
     - name: Generate and post hadith
-      run: |
-        python3 create_post.py --post --prefer-short
       env:
+        INSTAGRAM_USERNAME: ${{ secrets.INSTAGRAM_USERNAME }}
+        INSTAGRAM_PASSWORD: ${{ secrets.INSTAGRAM_PASSWORD }}
         INSTAGRAM_SESSION_DATA: ${{ secrets.INSTAGRAM_SESSION_DATA }}
-        PYTHONUNBUFFERED: 1
-    
-    - name: Archive generated slides
       run: |
-        python3 archive_slides.py
-      continue-on-error: false
+        python create_post.py
     
-    - name: Upload output logs (on failure)
-      if: failure()
-      uses: actions/upload-artifact@v4
-      with:
-        name: error-logs
-        path: logs/
-        retention-days: 7
-    
-    - name: Commit posted hadiths, image usage, and archived slides
+    - name: Commit updated session and posted hadiths
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git add posted_hadiths.json image_usage.json archive/
-        git diff --staged --quiet || git commit -m "Archive hadith slides and update tracking [skip ci]"
+        git add posted_hadiths.json
+        git diff --quiet && git diff --staged --quiet || git commit -m "Update posted hadiths and session data [skip ci]"
         git push
-      continue-on-error: true

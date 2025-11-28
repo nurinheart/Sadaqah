@@ -225,3 +225,27 @@ LOG_FILE = "hadith_generator.log"
 # Error handling
 ERROR_REPORTING_ENABLED = True
 ERROR_REPORT_EMAIL = "youremail@example.com"  # Change to your email
+
+# ===== POSTING SCHEDULE CONFIGURATION =====
+# Control how many posts per day and when they should run
+POSTING_SCHEDULE = {
+    "posts_per_day": 2,  # Options: 1, 2, 3, 4, or 5 posts per day
+    
+    # Predefined time slots for different posting frequencies
+    # Times are in UTC - adjust based on your audience timezone
+    "time_slots": {
+        1: ["12:00"],  # 1 post: midday
+        2: ["06:00", "18:00"],  # 2 posts: morning & evening
+        3: ["06:00", "12:00", "18:00"],  # 3 posts: morning, noon, evening
+        4: ["06:00", "11:00", "15:00", "20:00"],  # 4 posts: spread throughout day
+        5: ["04:00", "11:00", "14:00", "17:00", "20:00"]  # 5 posts: prayer times alignment
+    },
+    
+    # Custom time slots (optional) - overrides predefined slots if set
+    # Format: ["HH:MM", "HH:MM", ...] in UTC
+    "custom_times": None,  # Set to list of times to override, e.g., ["08:30", "16:45"]
+}
+
+# 🚨 IMPORTANT: After changing posts_per_day or custom_times:
+# Run: python3 update_workflow_schedule.py
+# Then commit and push the updated .github/workflows/daily-posts.yml file
