@@ -102,27 +102,54 @@ def main():
             hashtags = get_default_hashtags()
 
             # Post as single image or carousel, with auto-story sharing
-            try:
-                poster.post_image(filenames, caption, hashtags, share_to_story=True)
+            max_retries = 3
+            retry_delay = 30  # seconds
+            
+            for attempt in range(max_retries):
+                try:
+                    poster.post_image(filenames, caption, hashtags, share_to_story=True)
 
-                # SUCCESS: Commit the database changes
-                generator.commit_posted_hadith()
+                    # SUCCESS: Commit the database changes
+                    generator.commit_posted_hadith()
 
-                print()
-                print("🎉 POSTED TO INSTAGRAM SUCCESSFULLY!")
-                if len(filenames) > 1:
-                    print(f"📱 Posted as CAROUSEL with {len(filenames)} slides")
-                print("📱 Auto-shared to STORY with link to post!")
-                print(f"💾 Database updated - hadith marked as posted")
-                print()
+                    print()
+                    print("🎉 POSTED TO INSTAGRAM SUCCESSFULLY!")
+                    if len(filenames) > 1:
+                        print(f"📱 Posted as CAROUSEL with {len(filenames)} slides")
+                    print("📱 Auto-shared to STORY with link to post!")
+                    print(f"💾 Database updated - hadith marked as posted")
+                    print()
+                    break  # Success, exit retry loop
 
-            except Exception as post_error:
-                # FAILURE: Rollback the staged changes
-                generator.rollback_posted_hadith(hadith)
-                print(f"❌ Posting failed: {post_error}")
-                print(f"🔄 Database changes rolled back - hadith not marked as posted")
-                print(f"📦 Backup preserved: {backup_file}")
-                raise post_error
+                except Exception as post_error:
+                    error_msg = str(post_error).lower()
+                    
+                    # Check if it's a temporary Instagram restriction
+                    if 'feedback_required' in error_msg or 'rate limit' in error_msg or '429' in error_msg:
+                        if attempt < max_retries - 1:
+                            print(f"⚠️  Instagram restriction detected (attempt {attempt + 1}/{max_retries})")
+                            print(f"⏱️  Waiting {retry_delay} seconds before retry...")
+                            import time
+                            time.sleep(retry_delay)
+                            continue
+                    
+                    # FAILURE: Rollback the staged changes
+                    generator.rollback_posted_hadith(hadith)
+                    print(f"❌ Posting failed after {attempt + 1} attempt(s): {post_error}")
+                    print(f"🔄 Database changes rolled back - hadith not marked as posted")
+                    print(f"📦 Backup preserved: {backup_file}")
+                    
+                    # If it's Instagram restrictions, provide guidance
+                    if 'feedback_required' in error_msg:
+                        print("\n⚠️  INSTAGRAM ACTION REQUIRED:")
+                        print("   Instagram has temporarily restricted posting from this account.")
+                        print("   This is usually temporary and resolves in 24-48 hours.")
+                        print("   Actions to take:")
+                        print("   1. Wait 24-48 hours before posting again")
+                        print("   2. Login to Instagram app and verify account")
+                        print("   3. Reduce posting frequency if this persists")
+                    
+                    raise post_error
 
         except ImportError:
             print("⚠️  Instagram auto-posting not set up yet.")

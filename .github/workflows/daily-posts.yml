@@ -28,6 +28,12 @@ jobs:
       with:
         python-version: '3.11'
     
+    - name: Install system fonts for Arabic symbols
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y fonts-noto fonts-noto-core fonts-noto-ui-core fonts-noto-extra
+        fc-cache -f -v
+    
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip

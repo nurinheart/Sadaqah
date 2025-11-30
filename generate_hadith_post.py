@@ -244,19 +244,33 @@ class HadithPostGenerator:
                 available = short_available
                 print(f"📊 Filtering to {len(available)} short hadiths (<=10 slides)")
         
-        # Pick from least-posted book for variety
-        best_choice = None
-        min_count = float('inf')
+        # Pick from least-posted book for variety, with randomness
+        import random
         
+        # Group by collection and find least-posted collections
+        by_collection = {}
         for idx, hadith in available:
             collection = hadith['collection']
+            if collection not in by_collection:
+                by_collection[collection] = []
+            by_collection[collection].append((idx, hadith))
+        
+        # Find minimum post count
+        min_count = float('inf')
+        for collection in by_collection.keys():
             count = posted_books.get(collection, 0)
             if count < min_count:
                 min_count = count
-                best_choice = (idx, hadith)
         
-        if best_choice is None:
-            best_choice = available[0]
+        # Get all collections with minimum count
+        least_posted_collections = [
+            coll for coll in by_collection.keys()
+            if posted_books.get(coll, 0) == min_count
+        ]
+        
+        # Randomly select from least-posted collections
+        selected_collection = random.choice(least_posted_collections)
+        best_choice = random.choice(by_collection[selected_collection])
         
         index, hadith = best_choice
         
@@ -305,15 +319,17 @@ class HadithPostGenerator:
             size = FONTS[font_type]['size']
         
         # Special handling for Arabic/symbol fonts ONLY for 'symbol' type
-        # Special handling for Arabic/symbol fonts ONLY for 'symbol' type
         if font_type == 'symbol':
             # GeezaPro is the best font for ﷺ symbol on macOS
+            # Noto fonts are best for Linux/GitHub Actions
             # Priority order based on availability and rendering quality
             unicode_fonts = [
-                '/System/Library/Fonts/GeezaPro.ttc',  # PRIMARY - Best rendering
+                '/System/Library/Fonts/GeezaPro.ttc',  # PRIMARY - Best rendering (macOS)
                 '/System/Library/Fonts/Supplemental/GeezaPro.ttc',
                 '/System/Library/Fonts/Supplemental/Baghdad.ttc',
-                '/usr/share/fonts/truetype/noto/NotoNaskhArabic-Regular.ttf',  # Linux
+                '/usr/share/fonts/truetype/noto/NotoSansArabic-Regular.ttf',  # Linux/GitHub Actions
+                '/usr/share/fonts/truetype/noto/NotoNaskhArabic-Regular.ttf',
+                '/usr/share/fonts/noto/NotoSansArabic-Regular.ttf',
                 '/Library/Fonts/Arial Unicode.ttf',
                 '/System/Library/Fonts/Supplemental/Arial Unicode.ttf',
             ]
